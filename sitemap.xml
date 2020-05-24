@@ -10,7 +10,42 @@
   
   <url>
     <loc>https://dr-kyle.github.io/categories/</loc>
-    <lastmod>2020-04-13T17:52:14+08:00</lastmod>
+    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/tags/elasticsearch/</loc>
+    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/categories/elasticsearch/</loc>
+    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/post/elasticsearch-aggregation/</loc>
+    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/post/</loc>
+    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/tags/</loc>
+    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -23,21 +58,7 @@
   </url>
   
   <url>
-    <loc>https://dr-kyle.github.io/post/</loc>
-    <lastmod>2020-04-13T17:52:14+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://dr-kyle.github.io/categories/software/</loc>
-    <lastmod>2020-04-13T17:52:14+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://dr-kyle.github.io/tags/</loc>
     <lastmod>2020-04-13T17:52:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

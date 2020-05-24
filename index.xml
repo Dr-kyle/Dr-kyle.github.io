@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Elasticsearch 聚合查询学习</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch-aggregation/</link>
+      <pubDate>Sun, 24 May 2020 17:52:14 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch-aggregation/</guid>
+      <description>&lt;p&gt;Elasticsearch 聚合查询学习&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Win10 Ubuntu Docker</title>
       <link>https://dr-kyle.github.io/post/win10-ubuntu-docker/</link>
       <pubDate>Mon, 13 Apr 2020 17:52:14 +0800</pubDate>
