@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>OAuth2 四种认证方式 - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="OAuth2 四种认证方式学习" /><meta name="keywords" content="OAuth2" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/oauth2-%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="OAuth2 四种认证方式" />
+<meta property="og:description" content="OAuth2 四种认证方式学习" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/oauth2-%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/" />
+<meta property="article:published_time" content="2020-05-24T17:52:14+08:00" />
+<meta property="article:modified_time" content="2020-05-24T17:52:14+08:00" />
+<meta itemprop="name" content="OAuth2 四种认证方式">
+<meta itemprop="description" content="OAuth2 四种认证方式学习">
+<meta itemprop="datePublished" content="2020-05-24T17:52:14&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-24T17:52:14&#43;08:00" />
+<meta itemprop="wordCount" content="1614">
+
+
+
+<meta itemprop="keywords" content="OAuth2," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OAuth2 四种认证方式"/>
+<meta name="twitter:description" content="OAuth2 四种认证方式学习"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">OAuth2 四种认证方式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-05-24 17:52 </span>
+        <div class="post-category">
+            <a href="/categories/oauth2/"> OAuth2 </a>
+            </div>
+          <span class="more-meta"> 约 1614 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>OAuth2 四种认证方式的区别</p>
+<h1 id="oauth2-学习">OAuth2 学习</h1>
+<p>本文参考<a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html">阮一峰</a>的博客，本人做一个学习记录(其实就是手敲一遍，建议看阮一峰的博客)，加深印象。</p>
+<p>OAuth2 四种获取令牌的方式</p>
+<ul>
+<li>授权码 (authorization-code)</li>
+<li>隐藏式 (implicit)</li>
+<li>密码式 (password)</li>
+<li>客户端凭证 (client credentials)</li>
+</ul>
+<p>无论哪种授权方式，第三方应用申请令牌之前，都必须先到系统备案，说明自己的身份，然后会拿到两个身份识别码: client ID &amp; client secret.</p>
+<h2 id="一--授权码">一  授权码</h2>
+<p>指的是第三方应用先申请一个授权码，然后在用该码获取令牌</p>
+<p>适用于有后端的WEB应用，授权码通过前端传送，令牌则是存储在后端，而且所有与资源服务器的通信都在后端完成，这样的前后端分离，可以避免令牌泄露。</p>
+<h4 id="第一步">第一步：</h4>
+<p>A网站提供一个链接，用户点击后悔跳转到B网站，授权用户数据给A网站使用，下面就是A网站跳转B网站的一个示例链接</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://b.com/oauth/authorize?response_type=code&amp;client_id=CLIENT_ID&amp;redirect_uri=CALLBACK_URL&amp;scope=read
+</code></pre></td></tr></table>
+</div>
+</div><p><code>response_type</code> 表示要求返回授权码(<code>code</code>), <code>client_id</code>参数让B知道是谁在请求，<code>redirect_uri</code>参数是B接受或拒绝请求后的跳转网址，<code>scope</code>参数表示要求的授权范围（这是是只读）。</p>
+<h4 id="第二步">第二步：</h4>
+<p>用户跳转后，B网站会要求用户登录，登录询问是否同意给予A网站授权，用户同意后B网站就会跳回<code>redirect_uri</code>参数指定的网址，跳转时，会传回一个授权码，<code>https://a.com/callback?code=AUTHORIZATION_CODE</code>,  <code>CODE</code>就是授权码</p>
+<h4 id="第三步">第三步：</h4>
+<p>A网站拿到授权以后，就可以在后端，向B网站请求令牌</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://b.com/oauth/token?
+ client_id=CLIENT_ID&amp;
+ client_secret=CLIENT_SECRET&amp;
+ grant_type=authorization_code&amp;
+ code=AUTHORIZATION_CODE&amp;
+ redirect_uri=CALLBACK_URL
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="第四步">第四步：</h4>
+<p>B 网站收到请求以后，就会颁发令牌，做法是向<code>redirect_uri</code>指定的网址，发送一段JSON数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+	// 令牌
+  &#34;access_token&#34;:&#34;ACCESS_TOKEN&#34;,
+  &#34;token_type&#34;:&#34;bearer&#34;,
+  &#34;expires_in&#34;:2592000,
+  &#34;refresh_token&#34;:&#34;REFRESH_TOKEN&#34;,
+  &#34;scope&#34;:&#34;read&#34;,
+  &#34;uid&#34;:100101,
+  &#34;info&#34;:{...}
+}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="二-隐藏式">二 隐藏式</h2>
+<p>有些WEB应用是纯前端，没有后端，这时就不能用上面的方式了，必须将令牌存储在前端，这种方式没有授权码这个中间步骤，所以称为隐藏式。</p>
+<h4 id="第一步-1">第一步：</h4>
+<p>A网站提供一个链接，要求用户跳转到B网站，授权用户数据给A网站使用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://b.com/oauth/authorize?
+  response_type=token&amp;
+  client_id=CLIENT_ID&amp;
+  redirect_uri=CALLBACK_URL&amp;
+  scope=read
+</code></pre></td></tr></table>
+</div>
+</div><p><code>response_type</code>参数为 <code>token</code>, 表示要求直接返回令牌。</p>
+<h4 id="第二步-1">第二步：</h4>
+<p>用户跳转到B网站，登录后同意给予A网站授权，这时B网站就会跳回 <code>redirect_uri</code>参数指定的跳转网址，并且把令牌作为URL参数，传给A网站。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://a.com/callback#token=ACCESS_TOKEN
+</code></pre></td></tr></table>
+</div>
+</div><p>令牌的位置是URL锚点(fragment)， 而不是查询字符串(querystring), 这是因为OAuth2.0 允许跳转网址是HTTP协议，因此存在&quot;中间人攻击&quot;的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄露令牌的风险。</p>
+<p>这种方式把令牌直接传给前端，是很不安全的，因此，只能用于一些安全要求不高的场景，并且令牌的有效期必须非常短，通常就是会话期间(session)有效，浏览器关掉，令牌就失效了。</p>
+<h2 id="三-密码式">三 密码式</h2>
+<p>如果高度新人某个应用，用户可以直接把用户名和密码，直接告诉该应用。该应用就会使用你的密码，申请令牌，这种方式称为 密码式。</p>
+<h4 id="第一步-2">第一步：</h4>
+<p>A 网站要求用户提供B网站的用户名和密码，拿到以后，A就直接向B请求令牌。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://oauth.b.com/token?
+  grant_type=password&amp;
+  username=USERNAME&amp;
+  password=PASSWORD&amp;
+  client_id=CLIENT_ID
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="第二步-2">第二步：</h4>
+<p>B网站验证身份通过后，直接给出令牌，注意，这时不需要跳转，而是把令牌放在JSON数据里面，作为HTTP回应，A因此拿到令牌。</p>
+<h2 id="四-凭证式">四 凭证式</h2>
+<p>适用于没有前端的命令行应用，即在命令行下请求令牌。</p>
+<p>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。</p>
+<h4 id="第一步-3">第一步：</h4>
+<p>A应用在命令行向B发出请求。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://oauth.b.com/token?
+  grant_type=client_credentials&amp;
+  client_id=CLIENT_ID&amp;
+  client_secret=CLIENT_SECRET
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="第二步-3">第二步：</h4>
+<p>B 网站验证通过后，直接返回令牌</p>
+<h2 id="令牌的使用">令牌的使用</h2>
+<p>在请求头上加上token即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">curl -H <span class="s2">&#34;Authorization: Bearer ACCESS_TOKEN&#34;</span> <span class="se">\
+</span><span class="se"></span><span class="s2">&#34;https://api.b.com&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="更新令牌">更新令牌</h2>
+<p>令牌的有效期到了，如果让用户重新走一遍上面的流程，在申请一个新的令牌，很可能体验不好，而且也没有必要， Oauth 2.0 允许用户自动更新令牌。</p>
+<p>具体方法：B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌(refresh_token 字段)。令牌到期前，用户使用refresh token发一个请求，去更新令牌。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">https</span><span class="o">:</span><span class="c1">//b.com/oauth/token?
+</span><span class="c1"></span>  <span class="nx">grant_type</span><span class="o">=</span><span class="nx">refresh_token</span><span class="o">&amp;</span>
+  <span class="nx">client_id</span><span class="o">=</span><span class="nx">CLIENT_ID</span><span class="o">&amp;</span>
+  <span class="nx">client_secret</span><span class="o">=</span><span class="nx">CLIENT_SECRET</span><span class="o">&amp;</span>
+  <span class="nx">refresh_token</span><span class="o">=</span><span class="nx">REFRESH_TOKEN</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>B 网站验证通过以后，就会颁发新的令牌。</p>
+<p>​</p>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/oauth2/">OAuth2</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elasticsearch-aggregation/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Elasticsearch 聚合查询学习</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/win10-ubuntu-docker/">
+            <span class="next-text nav-default">Win10 Ubuntu Docker</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
