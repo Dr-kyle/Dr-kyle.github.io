@@ -30,7 +30,7 @@
   </url>
   
   <url>
-    <loc>https://dr-kyle.github.io/post/elasticsearch-aggregation/</loc>
+    <loc>https://dr-kyle.github.io/post/elasticsearch/elasticsearch-aggregation/</loc>
     <lastmod>2020-05-24T17:52:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -95,6 +95,12 @@
   <url>
     <loc>https://dr-kyle.github.io/</loc>
     <lastmod>2017-08-28T21:41:52+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/post/elasticsearch/es-manager/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

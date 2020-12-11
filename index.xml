@@ -22,10 +22,10 @@
     
     <item>
       <title>Elasticsearch 聚合查询学习</title>
-      <link>https://dr-kyle.github.io/post/elasticsearch-aggregation/</link>
+      <link>https://dr-kyle.github.io/post/elasticsearch/elasticsearch-aggregation/</link>
       <pubDate>Sun, 24 May 2020 17:52:14 +0800</pubDate>
       
-      <guid>https://dr-kyle.github.io/post/elasticsearch-aggregation/</guid>
+      <guid>https://dr-kyle.github.io/post/elasticsearch/elasticsearch-aggregation/</guid>
       <description>&lt;p&gt;Elasticsearch 聚合查询学习&lt;/p&gt;</description>
     </item>
     
@@ -45,6 +45,15 @@
       
       <guid>https://dr-kyle.github.io/post/win10-ubuntu-docker/</guid>
       <description>&lt;p&gt;Windows10 子系统Ubuntu安装Docker详细步骤&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/es-manager/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/es-manager/</guid>
+      <description>postES Manager 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 第一目标代替cerebro ES-portal 功能点 1. 角色划分 某些集群管理员 超级集群管理员 1. 集群管理员查看集群状态，</description>
     </item>
     
   </channel>
