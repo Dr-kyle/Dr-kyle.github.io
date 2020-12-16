@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>react on Kyle Blog</title>
+    <link>https://dr-kyle.github.io/tags/react/</link>
+    <description>Recent content in react on Kyle Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 15 Dec 2020 15:33:12 +0800</lastBuildDate>
+    
+	<atom:link href="https://dr-kyle.github.io/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>React Hooks</title>
+      <link>https://dr-kyle.github.io/post/react/react-hooks/</link>
+      <pubDate>Tue, 15 Dec 2020 15:33:12 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/react/react-hooks/</guid>
+      <description>&lt;p&gt;React hooks&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

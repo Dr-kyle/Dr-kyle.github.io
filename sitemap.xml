@@ -9,22 +9,50 @@
   </url>
   
   <url>
-    <loc>https://dr-kyle.github.io/post/elasticsearch/analyzer/</loc>
-    <lastmod>2020-12-11T10:48:05+08:00</lastmod>
+    <loc>https://dr-kyle.github.io/categories/</loc>
+    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://dr-kyle.github.io/post/</loc>
-    <lastmod>2020-12-11T10:48:05+08:00</lastmod>
+    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://dr-kyle.github.io/categories/</loc>
-    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
+    <loc>https://dr-kyle.github.io/tags/react/</loc>
+    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/categories/react/</loc>
+    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/post/react/react-hooks/</loc>
+    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/tags/</loc>
+    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/post/elasticsearch/analyzer/</loc>
+    <lastmod>2020-12-11T10:48:05+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -66,13 +94,6 @@
   
   <url>
     <loc>https://dr-kyle.github.io/post/oauth2-%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/</loc>
-    <lastmod>2020-05-24T17:52:14+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://dr-kyle.github.io/tags/</loc>
     <lastmod>2020-05-24T17:52:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
