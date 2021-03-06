@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elasticsearch Analyzer - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="Elasticsearch Analyzer" /><meta name="keywords" content="Elasticsearch, Analyzer" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/elasticsearch/elasticsearch-analyzer/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elasticsearch Analyzer" />
+<meta property="og:description" content="Elasticsearch Analyzer" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/elasticsearch/elasticsearch-analyzer/" />
+<meta property="article:published_time" content="2020-12-11T10:48:05+08:00" />
+<meta property="article:modified_time" content="2020-12-11T10:48:05+08:00" />
+<meta itemprop="name" content="Elasticsearch Analyzer">
+<meta itemprop="description" content="Elasticsearch Analyzer">
+<meta itemprop="datePublished" content="2020-12-11T10:48:05&#43;08:00" />
+<meta itemprop="dateModified" content="2020-12-11T10:48:05&#43;08:00" />
+<meta itemprop="wordCount" content="1935">
+
+
+
+<meta itemprop="keywords" content="Elasticsearch," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elasticsearch Analyzer"/>
+<meta name="twitter:description" content="Elasticsearch Analyzer"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elasticsearch Analyzer</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-12-11 10:48 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> Elasticsearch </a>
+            </div>
+          <span class="more-meta"> 约 1935 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>Elasticsearch Analyzer</p>
+<h1 id="analyzerhttpswwwelasticcoguideenelasticsearchreferencecurrentanalyzerhtml"><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html">Analyzer</a></h1>
+<p>只有 <code>text</code> 字段支持 <code>analyzer</code> 参数.</p>
+<p>analyzer 由三部分组成L <code>character filters</code>, <code>tokenizers</code>, <code>token filters</code>.</p>
+<h3 id="character-filters">Character filters</h3>
+<p>一个分析器可以有零个或多个 character filters, 按顺序执行。</p>
+<p>预处理字符流，添加、删除或更改字符，然后在将其传递给令牌生成器。</p>
+<p>内置的 character filters</p>
+<ul>
+<li>
+<p>HTML Strip Character Filter</p>
+<p><code>html_strip</code>  去除 HTML 元素</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT my-index-000001
+{
+  &#34;settings&#34;: {
+    &#34;analysis&#34;: {
+      &#34;analyzer&#34;: {
+        &#34;my_analyzer&#34;: {
+          &#34;tokenizer&#34;: &#34;keyword&#34;,
+          &#34;char_filter&#34;: [
+            &#34;my_custom_html_strip_char_filter&#34;
+          ]
+        }
+      },
+      &#34;char_filter&#34;: {
+        &#34;my_custom_html_strip_char_filter&#34;: {
+          &#34;type&#34;: &#34;html_strip&#34;,
+          &#34;escaped_tags&#34;: [
+            &#34;b&#34;
+          ]
+        }
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>Mapping Character Filter</p>
+<p>替换出现的指定字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT /my-index-000001
+{
+  &#34;settings&#34;: {
+    &#34;analysis&#34;: {
+      &#34;analyzer&#34;: {
+        &#34;my_analyzer&#34;: {
+          &#34;tokenizer&#34;: &#34;standard&#34;,
+          &#34;char_filter&#34;: [
+            &#34;my_mappings_char_filter&#34;
+          ]
+        }
+      },
+      &#34;char_filter&#34;: {
+        &#34;my_mappings_char_filter&#34;: {
+          &#34;type&#34;: &#34;mapping&#34;,
+          &#34;mappings&#34;: [
+            &#34;:) =&gt; _happy_&#34;,
+            &#34;:( =&gt; _sad_&#34;
+          ]
+        }
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>Pattern Replace Character Filter</p>
+<p>根据正则表达式进行替换</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT my-index-00001
+{
+  &#34;settings&#34;: {
+    &#34;analysis&#34;: {
+      &#34;analyzer&#34;: {
+        &#34;my_analyzer&#34;: {
+          &#34;tokenizer&#34;: &#34;standard&#34;,
+          &#34;char_filter&#34;: [
+            &#34;my_char_filter&#34;
+          ]
+        }
+      },
+      &#34;char_filter&#34;: {
+        &#34;my_char_filter&#34;: {
+          &#34;type&#34;: &#34;pattern_replace&#34;,
+          &#34;pattern&#34;: &#34;(\\d+)-(?=\\d)&#34;,
+          &#34;replacement&#34;: &#34;$1_&#34;
+        }
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="tokenizer">Tokenizer</h3>
+<p>分词器还负责记录每个术语的顺序或位置，以及开始和结束字符偏移量。</p>
+<p>分析器只能有一个 tokenizer。</p>
+<h3 id="token-filters">Token filters</h3>
+<p>过滤器不允许更改每个令牌的位置或字符偏移量。</p>
+<p>分析器可能具有零个或多个 token filter，按顺序执行。</p>
+<ul>
+<li>
+<p><code>lowercase</code> 将所有token转换为小写字母。</p>
+</li>
+<li>
+<p><code>stop</code> 从 所有token中删除常用词。</p>
+</li>
+<li>
+<p><code>synonym</code> 引入同义词。</p>
+</li>
+</ul>
+<h4 id="index-and-search-analysis">index and search analysis</h4>
+<p>test analysis 在两种情况会发生。</p>
+<ul>
+<li>数据写入时，<code>text</code> 字段会被分析</li>
+<li>数据查询时，默认和数据写入时使用相同的分析器，除非指定。</li>
+</ul>
+<h4 id="stemming">Stemming</h4>
+<p>词干，将单词还原成词根形式的过程，可以确保在搜索过程中单词匹配。</p>
+<p>例如: walking 和 walked 还原成词根 walk。词干依赖于语言，通常涉及从单词中删除前缀和后缀。</p>
+<h5 id="stemmer-token-filter">Stemmer token filter</h5>
+<ul>
+<li>
+<p>algorithmic stemmers 基于一组规则来生成词干</p>
+<p>优点：</p>
+<ul>
+<li>需要很少的设置，通常开箱即用</li>
+<li>使用很少的内存</li>
+<li>比 dictionary 分析器快</li>
+</ul>
+</li>
+<li>
+<p>dictionary stemmers 在字典中查找</p>
+<p>非常适合</p>
+<ul>
+<li>阻止不规则单词</li>
+<li>辨别拼写相似但概念上不相关的单词，例如： &lsquo;organ'和&rsquo;organization&rsquo;, &lsquo;broker'和 &lsquo;broken&rsquo;</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>词典质量, 需要定期更新</li>
+<li>大小和性能，必须将词典中的所有单词，前缀和后缀加载到内存中，会占用大量RAM。</li>
+<li>低质量词典在删除前缀和后缀时可能效率较低，会大大减慢词干的处理速度。</li>
+</ul>
+<p>algorithmic优于 dictionary stemmers</p>
+</li>
+<li>
+<p>Control stemming</p>
+<p>有时拼写相近但没有关系的词可以产生相同的词干，例如： skies 和 skiing 产生相同词干 ski。</p>
+<p>为了防止这种情况并更好控制，可以使用 以下token filter:</p>
+<ul>
+<li>stemmer_override 阻止特定令牌的规则</li>
+<li>keyword_marker 将制定的标记标记为关键字，关键字令牌不会被后续的词干令牌过滤器阻止。</li>
+<li>conditional 类似于 keyword_marker</li>
+</ul>
+<p>对于内置的 language analyzers, 可以使用 stem_exclusion 参数定义不会被词干的列表。</p>
+</li>
+</ul>
+<h4 id="token-graphs">Token graphs</h4>
+<p>empty</p>
+<h3 id="test-an-analyzer">Test an analyzer</h3>
+<p>建议在生产环境使用前，进行分词测试，See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/test-analyzer.html">Test an analyzer</a></p>
+<ol>
+<li>An <code>analyzer</code> setting for indexing all terms including stop words</li>
+<li>A <code>search_analyzer</code> setting for non-phrase queries that will remove stop words</li>
+<li>A <code>search_quote_analyzer</code> setting for phrase queries that will not remove stop words</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT my-index-000001
+{
+   &#34;settings&#34;:{
+      &#34;analysis&#34;:{
+         &#34;analyzer&#34;:{
+             &#34;my_custom_analyzer&#34;: {
+              &#34;type&#34;: &#34;custom&#34;, 
+              &#34;tokenizer&#34;: &#34;standard&#34;,
+              &#34;char_filter&#34;: [
+                &#34;html_strip&#34;
+              ],
+              &#34;filter&#34;: [
+                &#34;lowercase&#34;,
+                &#34;asciifolding&#34;
+              ]
+            },
+            &#34;my_analyzer&#34;:{ 
+               &#34;type&#34;:&#34;custom&#34;,
+               &#34;tokenizer&#34;:&#34;standard&#34;,
+               &#34;filter&#34;:[
+                  &#34;lowercase&#34;
+               ]
+            },
+            &#34;my_stop_analyzer&#34;:{ 
+               &#34;type&#34;:&#34;custom&#34;,
+               &#34;tokenizer&#34;:&#34;standard&#34;,
+               &#34;filter&#34;:[
+                  &#34;lowercase&#34;,
+                  &#34;english_stop&#34;
+               ]
+            }
+         },
+         &#34;filter&#34;:{
+            &#34;english_stop&#34;:{
+               &#34;type&#34;:&#34;stop&#34;,
+               &#34;stopwords&#34;:&#34;_english_&#34;
+            }
+         }
+      }
+   },
+   &#34;mappings&#34;:{
+       &#34;properties&#34;:{
+          &#34;title&#34;: {
+             &#34;type&#34;:&#34;text&#34;,
+             // setting that points to the my_analyzer analyzer which will be used at index time
+             &#34;analyzer&#34;:&#34;my_analyzer&#34;, 
+             // setting that points to the my_stop_analyzer and removes stop words for non-phrase queries
+             &#34;search_analyzer&#34;:&#34;my_stop_analyzer&#34;, 
+             // setting that points to the my_analyzer analyzer and ensures that stop words are not removed from phrase queries
+             &#34;search_quote_analyzer&#34;:&#34;my_analyzer&#34; 
+         }
+      }
+   }
+}
+
+GET /_analyze
+{
+  &#34;tokenizer&#34;: &#34;keyword&#34;,
+  &#34;char_filter&#34;: [
+    &#34;html_strip&#34;
+  ],
+  &#34;text&#34;: &#34;&lt;p&gt;I&amp;apos;m so &lt;b&gt;happy&lt;/b&gt;!&lt;/p&gt;&#34;
+}
+
+POST my-index-000001/_analyze
+{
+  &#34;analyzer&#34;: &#34;my_custom_analyzer&#34;,
+  &#34;text&#34;: &#34;Is this &lt;b&gt;déjà vu&lt;/b&gt;?&#34;
+}
+
+PUT my-index-000001/_doc/1
+{
+   &#34;title&#34;:&#34;The Quick Brown Fox&#34;
+}
+
+PUT my-index-000001/_doc/2
+{
+   &#34;title&#34;:&#34;A Quick Brown Fox&#34;
+}
+
+GET my-index-000001/_search
+{
+   &#34;query&#34;:{
+      &#34;query_string&#34;:{
+         &#34;query&#34;:&#34;\&#34;the quick brown fox\&#34;&#34; 
+      }
+   }
+}
+
+因为 &#34;query&#34;:&#34;\&#34;the quick brown fox\&#34;&#34; 使用引号括起来的，所以是短语查询，所以 search_quote_analyzer 启用确保不会从query移除停止词。
+my_analyzer analyzer 会返回词组 [the, quick, brown, fox] ，将匹配其中的一个文档。
+同时，term queries 将会使用 my_stop_analyzer 分析器进行分析，分析器会过滤掉停止词，因此一个搜索例如：
+The quick brown fox 或 A quick brown fox 将返回两个文档， 因为这两个文档包含 tokens [quick, brown, fox]。 
+如果没有search_quote_analyzer，则无法对短语查询进行精确匹配，因为短语查询中的停止词将被删除，从而导致两个文档都匹配。
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="normalizers">Normalizers</h3>
+<p>规范化器, normalizer 是keyword的一个属性，对keyword生成的单一<code>term</code>在做进一步的处理，例如大小写转换，字符转换.</p>
+<p>Elasticsearch 内置 <code>lowercase</code> 规范器，其他的需要自定义使用，<code>arabic_normalization</code>, <code>asciifolding</code>, <code>bengali_normalization</code>, <code>cjk_width</code>, <code>decimal_digit</code>, <code>elision</code>, <code>german_normalization</code>, <code>hindi_normalization</code>, <code>indic_normalization</code>, <code>lowercase</code>, <code>persian_normalization</code>, <code>scandinavian_folding</code>, <code>serbian_normalization</code>, <code>sorani_normalization</code>, <code>uppercase</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT my-index-000001
+{
+  &#34;settings&#34;: {
+    &#34;analysis&#34;: {
+      &#34;char_filter&#34;: {
+        &#34;quote&#34;: {
+          &#34;type&#34;: &#34;mapping&#34;,
+          &#34;mappings&#34;: [
+            &#34;« =&gt; \&#34;&#34;,
+            &#34;» =&gt; \&#34;&#34;
+          ]
+        }
+      },
+      &#34;normalizer&#34;: {
+        &#34;my_normalizer&#34;: {
+          &#34;type&#34;: &#34;custom&#34;,
+          &#34;char_filter&#34;: [&#34;quote&#34;],
+          &#34;filter&#34;: [&#34;lowercase&#34;, &#34;asciifolding&#34;]
+        }
+      }
+    }
+  },
+  &#34;mappings&#34;: {
+    &#34;properties&#34;: {
+      &#34;foo&#34;: {
+        &#34;type&#34;: &#34;keyword&#34;,
+        &#34;normalizer&#34;: &#34;my_normalizer&#34;
+      }
+    }
+  }
+}
+
+
+POST my-index-000001/_doc
+{
+  &#34;foo&#34;: &#34;«Abc»&#34;
+}
+
+// 可以查询出来结果
+GET my-index-000001/_search
+{
+  &#34;query&#34;: {
+    &#34;query_string&#34;: {
+      &#34;query&#34;: &#34;«abc»&#34;
+    }
+  }
+}
+// 可以查询出来结果
+GET my-index-000001/_search
+{
+  &#34;query&#34;: {
+    &#34;term&#34;: {
+      &#34;foo&#34;: {
+        &#34;value&#34;: &#34;\&#34;abc»&#34;
+      }
+    }
+  }
+}
+// 可以查询出来结果
+GET my-index-000001/_search
+{
+  &#34;query&#34;: {
+    &#34;term&#34;: {
+      &#34;foo&#34;: {
+        &#34;value&#34;: &#34;\&#34;abc»&#34;
+      }
+    }
+  }
+}
+
+// 可以查询出来结果
+GET my-index-000001/_search
+{
+  &#34;query&#34;: {
+    &#34;term&#34;: {
+      &#34;foo&#34;: {
+        &#34;value&#34;: &#34;\&#34;Abc\&#34;&#34;
+      }
+    }
+  }
+}
+
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">Elasticsearch</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/react/react-hooks/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">React Hooks</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/elasticsearch/elasticsearch-aggregation/">
+            <span class="next-text nav-default">Elasticsearch 聚合查询学习</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
