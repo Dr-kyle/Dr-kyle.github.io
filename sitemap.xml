@@ -10,14 +10,42 @@
   
   <url>
     <loc>https://dr-kyle.github.io/categories/</loc>
-    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
+    <lastmod>2021-03-26T20:38:29+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/tags/js/</loc>
+    <lastmod>2021-03-26T20:38:29+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/categories/js/</loc>
+    <lastmod>2021-03-26T20:38:29+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/post/js/js-standard/</loc>
+    <lastmod>2021-03-26T20:38:29+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://dr-kyle.github.io/post/</loc>
-    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
+    <lastmod>2021-03-26T20:38:29+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://dr-kyle.github.io/tags/</loc>
+    <lastmod>2021-03-26T20:38:29+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -38,13 +66,6 @@
   
   <url>
     <loc>https://dr-kyle.github.io/post/react/react-hooks/</loc>
-    <lastmod>2020-12-15T15:33:12+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://dr-kyle.github.io/tags/</loc>
     <lastmod>2020-12-15T15:33:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
