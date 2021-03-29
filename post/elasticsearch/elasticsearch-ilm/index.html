@@ -48,7 +48,7 @@
 <meta itemprop="description" content="elasticsearch ILM">
 <meta itemprop="datePublished" content="2021-03-29T11:20:22&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-29T11:20:22&#43;08:00" />
-<meta itemprop="wordCount" content="1125">
+<meta itemprop="wordCount" content="1120">
 
 
 
@@ -128,7 +128,7 @@
         <div class="post-category">
             <a href="/categories/elasticsearch/"> elasticsearch </a>
             </div>
-          <span class="more-meta"> 约 1125 字 </span>
+          <span class="more-meta"> 约 1120 字 </span>
           <span class="more-meta"> 预计阅读 3 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -298,17 +298,27 @@
 </div>
 </div></li>
 <li>
-<p>创建第一个index, index 格式必须满足该正则 <em>^.*-\d+$</em> , example：logs-000001</p>
+<p>创建第一个index,以下两种形式任选一种即可， index 格式必须满足该正则 <em>^.*-\d+$</em> , example：logs-000001</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT kyletest-000001
@@ -319,6 +329,16 @@
     }
   }
 }
+OR
+# PUT /&lt;kyletest-{now/d}-1&gt; with URI encoding:
+ PUT /%3Ckyletest-%7Bnow%2Fd%7D-1%3E 
+ {
+   &#34;aliases&#34;: {
+     &#34;kyle_data&#34;: {
+       &#34;is_write_index&#34;: true
+     }
+   }
+ } 
 </code></pre></td></tr></table>
 </div>
 </div></li>
@@ -424,10 +444,7 @@ RESPONSE：
 </div>
 </div></li>
 </ol>
-<h3 id="note">Note</h3>
-<blockquote>
-<p>以下两种创建index方法选择一种即可, 数据读取和写入都应该使用alias</p>
-</blockquote>
+<h3 id="note读者请忽略我只是为了记录这个操作">Note(读者请忽略，我只是为了记录这个操作)</h3>
 <ol>
 <li>
 <p>手动生成下一个index</p>
@@ -449,7 +466,7 @@ RESPONSE：
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">POST /kyletest/_rollover/kyletest-000003
 {
   &#34;conditions&#34;: {
-    &#34;max_age&#34;:   &#34;1d&#34;
+    &#34;max_age&#34;:   &#34;1m&#34;
   }
 }
    
@@ -457,33 +474,6 @@ PUT kyletest-000002/_settings
  {
    &#34;index.lifecycle.indexing_complete&#34;: true
  }
-</code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>按日期生成</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># PUT /&lt;logs-{now/d}-1&gt; with URI encoding:
- PUT /%3Clogs-%7Bnow%2Fd%7D-1%3E 
- {
-   &#34;aliases&#34;: {
-     &#34;logs&#34;: {
-       &#34;is_write_index&#34;: true
-     }
-   }
- } 
 </code></pre></td></tr></table>
 </div>
 </div></li>
