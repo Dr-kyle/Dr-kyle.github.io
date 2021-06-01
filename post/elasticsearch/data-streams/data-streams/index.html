@@ -48,7 +48,7 @@
 <meta itemprop="description" content="elasticsearch data streams">
 <meta itemprop="datePublished" content="2021-04-28T15:38:36&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-28T15:38:36&#43;08:00" />
-<meta itemprop="wordCount" content="4673">
+<meta itemprop="wordCount" content="4687">
 
 
 
@@ -128,7 +128,7 @@
         <div class="post-category">
             <a href="/categories/elasticsearch/"> Elasticsearch </a>
             </div>
-          <span class="more-meta"> 约 4673 字 </span>
+          <span class="more-meta"> 约 4687 字 </span>
           <span class="more-meta"> 预计阅读 10 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -137,7 +137,7 @@
     
     <div class="post-content">
       <p>Elasticsearch Data Streams 介绍</p>
-<p>本文收录至《Elastic Stack 实战手册》，欢迎和我一起解锁开发者共创书籍，系统学习 Elasticsearch。</p>
+<p>本文由 赵凯 和 金多安 共同完成，已收录至《Elastic Stack 实战手册》，欢迎和我们一起解锁开发者共创书籍，系统学习 Elasticsearch。</p>
 <p><img src="/images/alibaba.png" alt=""></p>
 <h1 id="data-stream-的概念">Data stream 的概念</h1>
 <h2 id="时序性数据">时序性数据</h2>
@@ -183,7 +183,7 @@
 <p>在一定程度上，Data stream 的管理优势是利用了 ILM 的特性。但是 ILM 在普通场景下需要根据索引的别名（ alias ）逐个设置，而 Data stream 则是抛弃了 alias 的限制，可以直接批量化设置相似名称的索引，大大增加了 ILM 的使用范围。</p>
 <h2 id="data-stream-的组成">Data stream 的组成</h2>
 <p>数据流在 Elasticsearch 集群中由一个或多个隐藏的、自动生成的后备索引组成。</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C1.png" alt=""></p>
+<p><img src="/images/data-streams/1.png" alt=""></p>
 <p>在实际的 Elasticsearch 操作中，数据流依靠索引模板来设定数据流实体的后备索引。</p>
 <ul>
 <li>
@@ -198,9 +198,9 @@
 </ul>
 <p>每个索引到数据流的文档，必须包含一个 @timestamp 字段，映射为 date 或 date_nanos 字段类型。如果索引模板没有为 @timestamp 字段指定映射，Elasticsearch 将 @timestamp 映射为带有默认选项的日期字段。</p>
 <p>Data stream 的读请求主要如下图，数据流自动将请求路由到其所有后备索引。</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C2.png" alt=""></p>
+<p><img src="/images/data-streams/2.png" alt=""></p>
 <p>而对于写请求，数据流则将该请求自动转发给最新的后备索引。</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C3.png" alt=""></p>
+<p><img src="/images/data-streams/3.png" alt=""></p>
 <p>对于写请求，有两点需要注意：</p>
 <ul>
 <li>
@@ -288,8 +288,8 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>Kibana 图形界面： Stack Management -&gt; Index Lifecycle Policies -&gt; Create policy</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C4.png" alt=""></p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C5.png" alt=""></p>
+<p><img src="/images/data-streams/4.png" alt=""></p>
+<p><img src="/images/data-streams/5.png" alt=""></p>
 <p>注意：</p>
 <ol>
 <li>
@@ -302,7 +302,7 @@
 <p>新版本下，max_size 的判断并不敏感，可能是因为索引的主分片 size 大小会被 merge 后收缩，需要有一定时间的观察。如下图。测试之下，200MB之下的 max_size 会失效。建议 max_size 设置参数不要太小。</p>
 </li>
 </ol>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C6.png" alt=""></p>
+<p><img src="/images/data-streams/6.png" alt=""></p>
 <h3 id="创建索引模板">创建索引模板</h3>
 <p>索引模板是后备索引设置，以及 mapping 的主要配置来源，此处不展开延伸。主要设置 Data stream 相关的部分。</p>
 <p>相关命令：</p>
@@ -354,11 +354,11 @@
 </ol>
 <p>Kibana 界面:</p>
 <p>Stack Management -&gt; Index Management -&gt; Index Templates -&gt; Create template</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C7.png" alt=""></p>
+<p><img src="/images/data-streams/7.png" alt=""></p>
 <p>创建 template，不要创建旧版索引，并打开数据流标签</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C8.png" alt=""></p>
+<p><img src="/images/data-streams/8.png" alt=""></p>
 <p>设置生命周期管理策略，其他设置此处省略，一直下一步至创建完成。</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C9.png" alt=""></p>
+<p><img src="/images/data-streams/9.png" alt=""></p>
 <h3 id="创建-data-stream">创建 Data stream</h3>
 <p>可以自动利用 template 的匹配模式新增文档创建：</p>
 <div class="highlight"><div class="chroma">
@@ -1082,7 +1082,7 @@ POST /my-data-stream/_delete_by_query
 </li>
 </ol>
 <p>相关的图形和命令配置如下：</p>
-<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C10.png" alt=""></p>
+<p><img src="/images/data-streams/10.png" alt=""></p>
 <p>上图时在索引生命周期管理中选择 Data tiers节点。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
