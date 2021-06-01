@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Data Streams</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/data-streams/data-streams/</link>
+      <pubDate>Wed, 28 Apr 2021 15:38:36 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/data-streams/data-streams/</guid>
+      <description>&lt;p&gt;Elasticsearch Data Streams 介绍&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>App Search</title>
       <link>https://dr-kyle.github.io/post/elasticsearch/app-search/</link>
       <pubDate>Fri, 23 Apr 2021 16:55:41 +0800</pubDate>
@@ -31,10 +40,10 @@
     
     <item>
       <title>Elasticsearch 生命周期管理</title>
-      <link>https://dr-kyle.github.io/post/elasticsearch/elasticsearch-ilm/</link>
+      <link>https://dr-kyle.github.io/post/elasticsearch/ilm/elasticsearch-ilm/</link>
       <pubDate>Thu, 15 Apr 2021 21:31:10 +0800</pubDate>
       
-      <guid>https://dr-kyle.github.io/post/elasticsearch/elasticsearch-ilm/</guid>
+      <guid>https://dr-kyle.github.io/post/elasticsearch/ilm/elasticsearch-ilm/</guid>
       <description>&lt;p&gt;elasticsearch 生命周期介绍&lt;/p&gt;</description>
     </item>
     

@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Data Streams - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="elasticsearch data streams" /><meta name="keywords" content="data, streams, data streams" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/elasticsearch/data-streams/data-streams/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Data Streams" />
+<meta property="og:description" content="elasticsearch data streams" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/elasticsearch/data-streams/data-streams/" />
+<meta property="article:published_time" content="2021-04-28T15:38:36+08:00" />
+<meta property="article:modified_time" content="2021-04-28T15:38:36+08:00" />
+<meta itemprop="name" content="Data Streams">
+<meta itemprop="description" content="elasticsearch data streams">
+<meta itemprop="datePublished" content="2021-04-28T15:38:36&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-28T15:38:36&#43;08:00" />
+<meta itemprop="wordCount" content="4672">
+
+
+
+<meta itemprop="keywords" content="Elasticsearch," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Data Streams"/>
+<meta name="twitter:description" content="elasticsearch data streams"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Data Streams</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-04-28 15:38 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> Elasticsearch </a>
+            </div>
+          <span class="more-meta"> 约 4672 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>Elasticsearch Data Streams 介绍</p>
+<p>本文收录至《Elastic Stack 实战手册》，欢迎和我一起解锁开发者共创书籍，系统学习 Elasticsearch。</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cimages%5Calibaba.png" alt=""></p>
+<h1 id="data-stream-的概念">Data stream 的概念</h1>
+<h2 id="时序性数据">时序性数据</h2>
+<p>时间序列数据（ time series data ）是在不同时间上收集到的数据，用于所描述现象随时间变化的情况。这类数据反映了某一事物、现象等，随时间的变化状态或程度。</p>
+<p>总的来说，这类数据主要基于时间特性明显，随着时间的流逝，往往过去时间的数据没有现在时间的重要或者敏感。</p>
+<p>对于 Elastisearch 处理时序性数据，有人总结了主要有以下特点：</p>
+<ul>
+<li>
+<p>由时间戳 + 数据组成。基于时间的事件，可以是服务器日志或者社交媒体流。</p>
+</li>
+<li>
+<p>通常搜索最近事件，旧文件变得不太重要。</p>
+</li>
+<li>
+<p>索引的使用主要基于时间，但是数据并不一定随着时间均衡分布。</p>
+</li>
+<li>
+<p>时序性数据一旦存入后很少修改。</p>
+</li>
+<li>
+<p>时序性数据随着时间的增加，数据量会很大。</p>
+</li>
+</ul>
+<p>Elastisearch 在时序性数据的使用中，往往会有以下的缺点：</p>
+<ul>
+<li>
+<p>索引随着时间增加而数目较多。</p>
+</li>
+<li>
+<p>索引大小无法均衡。</p>
+</li>
+<li>
+<p>管理索引成本较高，需要维护 merge 合并删除等一系列任务。</p>
+</li>
+<li>
+<p>节点资源与冷热数据分布不匹配。</p>
+</li>
+</ul>
+<p>在这样的一个场景下，数据流 Data stream 应运而生。</p>
+<p>Data stream （数据流）是 Elastic Stack 7.9  的一个新的功能。Data stream 可以跨多个索引存储只追加时序性数据，同时为查询写入等请求提供唯一的一个命名资源。Data stream 非常适合日志，事件，指标以及其他持续生成的数据。</p>
+<p>简单来说，Data stream 根据模板生成存储数据的后备索引，然后自动将搜索或者索引请求路由到存储流数据的后备索引。而这些后备索引则根据索引生命周期管理（ ILM ）来自动管理。</p>
+<p>例如，你可以使用 ILM 自动将较旧的后备索引移动到较便宜的硬件上（冷热数据处理），根据索引大小自动  Rollover 出新的后备索引，或者删除到时间限制的索引。</p>
+<p>在一定程度上，Data stream 的管理优势是利用了 ILM 的特性。但是 ILM 在普通场景下需要根据索引的别名（ alias ）逐个设置，而 Data stream 则是抛弃了 alias 的限制，可以直接批量化设置相似名称的索引，大大增加了 ILM 的使用范围。</p>
+<h2 id="data-stream-的组成">Data stream 的组成</h2>
+<p>数据流在 Elasticsearch 集群中由一个或多个隐藏的、自动生成的后备索引组成。</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C1.png" alt=""></p>
+<p>在实际的 Elasticsearch 操作中，数据流依靠索引模板来设定数据流实体的后备索引。</p>
+<ul>
+<li>
+<p>模板包含用于配置流的后备索引的映射和设置。</p>
+</li>
+<li>
+<p>同一个索引模板可用于多个数据流。</p>
+</li>
+<li>
+<p>不能删除数据流正在使用的索引模板。</p>
+</li>
+</ul>
+<p>每个索引到数据流的文档，必须包含一个 @timestamp 字段，映射为 date 或 date_nanos 字段类型。如果索引模板没有为 @timestamp 字段指定映射，Elasticsearch 将 @timestamp 映射为带有默认选项的日期字段。</p>
+<p>Data stream 的读请求主要如下图，数据流自动将请求路由到其所有后备索引。</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C2.png" alt=""></p>
+<p>而对于写请求，数据流则将该请求自动转发给最新的后备索引。</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C3.png" alt=""></p>
+<p>对于写请求，有两点需要注意：</p>
+<ul>
+<li>
+<p>不能将新文档添加到其他非最新后备索引，即使直接将请求发送到这些索引也不行。</p>
+</li>
+<li>
+<p>不能对正在写入的索引做 Clone/Close/Delete/Freeze/Shrink/Split 相关操作。</p>
+</li>
+</ul>
+<blockquote>
+<p>注：7.12版本可以 Close</p>
+</blockquote>
+<h2 id="data-stream-的特性">Data stream 的特性</h2>
+<h3 id="生成">生成</h3>
+<p>每个 Data stream 的后备索引都有一个 generation 数，一个六位数，零填充的整数，从 000001 开始，用作该流的 rollover 的计数。</p>
+<p>后备索引名主要依照以下格式：</p>
+<p>.ds-<!-- raw HTML omitted -->-<!-- raw HTML omitted --></p>
+<p>Generation 越大，后备索引包含的数据越新。 例如，web-server-logs 数据流最新的 generation 为 34。该流的最新后备索引名为 .ds-web-server-logs-000034。</p>
+<p>注意：某些操作（例如 shrink 或 restore ）可以更改后备索引的名称。 这些名称更改不会从其数据流中删除后备索引。</p>
+<h3 id="rollover">Rollover</h3>
+<p>在 Data stream 的使用中，rollover 是必不可少的条件。</p>
+<p>创建数据流时，Elasticsearch 会自动为该 Data stream 根据 template 创建一个后备索引。 该索引还充当流的第一个写入索引。当满足一定条件时， rollover 会创建一个新的后备索引，该后备索引将成为 Data stream 的新写入索引。</p>
+<p>当然 rollover 的条件设置主要依靠 ILM。 如果需要，你还可以手动将数据 rollover 。</p>
+<h3 id="追加">追加</h3>
+<p>由于时序性数据的特征，Data stream 的设计场景中，数据是只追加的，极少需要修改删除。如果实际需要修改删除，则可以考虑以下操作：</p>
+<ul>
+<li>
+<p>对于数据流只能通过 update by query 或者 delete by query 操作，不能进行 update 或者 delete 文档。</p>
+</li>
+<li>
+<p>需要 delete 或者 update 文档，则直接对后备索引操作。</p>
+</li>
+<li>
+<p>需要经常删除或者修改文档的，请使用索引别名或者索引模板，不要对 Data stream 操作。</p>
+</li>
+</ul>
+<h3 id="data-stream-的使用">Data stream 的使用</h3>
+<h3 id="创建索引生命周期管理策略-ilm">创建索引生命周期管理策略 ILM</h3>
+<p>索引生命周期管理策略 ILM 的主要配置细节见索引周期管理一章，此处主要做 hot 和 delete 阶段的设置，用于 rollover 的引用。</p>
+<p>相关命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">PUT</span> <span class="o">/</span><span class="nx">_ilm</span><span class="o">/</span><span class="nx">policy</span><span class="o">/</span><span class="nx">my</span><span class="o">-</span><span class="nx">data</span><span class="o">-</span><span class="nx">stream</span><span class="o">-</span><span class="nx">policy</span>
+<span class="p">{</span>
+  <span class="s2">&#34;policy&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&#34;phases&#34;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&#34;hot&#34;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&#34;actions&#34;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&#34;rollover&#34;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&#34;max_size&#34;</span><span class="o">:</span> <span class="s2">&#34;25GB&#34;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="s2">&#34;delete&#34;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&#34;min_age&#34;</span><span class="o">:</span> <span class="s2">&#34;30d&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;actions&#34;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&#34;delete&#34;</span><span class="o">:</span> <span class="p">{}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Kibana 图形界面： Stack Management -&gt; Index Lifecycle Policies -&gt; Create policy</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C4.png" alt=""></p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C5.png" alt=""></p>
+<p>注意：</p>
+<ol>
+<li>
+<p>rollover 设置中，文档数和最大存在时间是相对敏感的配置参数，由于 Elasticsearch 并不是实时监控 ILM 的执行任务（默认十分钟），最终结果并不一定完全一致。</p>
+</li>
+<li>
+<p>ILM 任务判断中，max_size 判断的是主分片的大小，而不是整个索引的大小。</p>
+</li>
+<li>
+<p>新版本下，max_size 的判断并不敏感，可能是因为索引的主分片 size 大小会被 merge 后收缩，需要有一定时间的观察。如下图。测试之下，200MB之下的 max_size 会失效。建议 max_size 设置参数不要太小。</p>
+</li>
+</ol>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C6.png" alt=""></p>
+<h3 id="创建索引模板">创建索引模板</h3>
+<p>索引模板是后备索引设置，以及 mapping 的主要配置来源，此处不展开延伸。主要设置 Data stream 相关的部分。</p>
+<p>相关命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">PUT</span> <span class="o">/</span><span class="nx">_index_template</span><span class="o">/</span><span class="nx">my</span><span class="o">-</span><span class="nx">data</span><span class="o">-</span><span class="nx">stream</span><span class="o">-</span><span class="nx">template</span>
+<span class="p">{</span>
+  <span class="s2">&#34;index_patterns&#34;</span><span class="o">:</span> <span class="p">[</span> <span class="s2">&#34;my-data-stream*&#34;</span> <span class="p">],</span>
+  <span class="s2">&#34;data_stream&#34;</span><span class="o">:</span> <span class="p">{</span> <span class="p">},</span>
+  <span class="s2">&#34;priority&#34;</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s2">&#34;template&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&#34;settings&#34;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&#34;index.lifecycle.name&#34;</span><span class="o">:</span> <span class="s2">&#34;my-data-stream-policy&#34;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意：</p>
+<ol>
+<li>
+<p>定义 data_stream 为一个空的 object ，这是必要的。</p>
+</li>
+<li>
+<p>Template 中使用了上一步创建的 ILM 策略 my-data-stream-policy。</p>
+</li>
+</ol>
+<p>此外，还需要注意两点：</p>
+<ol>
+<li>
+<p>Elasticsearch 有一些内置索引模板如 metric-<strong>-</strong> 和 logs-<strong>-</strong> ，默认优先级 priority 是 100。如果有重名使用，则可以调高优先级，防止被默认的覆盖。</p>
+</li>
+<li>
+<p>索引模板默认将 @timestamp 字段设置为 date 属性。</p>
+</li>
+</ol>
+<p>Kibana 界面:</p>
+<p>Stack Management -&gt; Index Management -&gt; Index Templates -&gt; Create template</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C7.png" alt=""></p>
+<p>创建 template，不要创建旧版索引，并打开数据流标签</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C8.png" alt=""></p>
+<p>设置生命周期管理策略，其他设置此处省略，一直下一步至创建完成。</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C9.png" alt=""></p>
+<h3 id="创建-data-stream">创建 Data stream</h3>
+<p>可以自动利用 template 的匹配模式新增文档创建：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">POST</span> <span class="o">/</span><span class="nx">my</span><span class="o">-</span><span class="nx">data</span><span class="o">-</span><span class="nx">stream</span><span class="o">/</span><span class="nx">_doc</span><span class="o">/</span>
+<span class="p">{</span>
+  <span class="s2">&#34;@timestamp&#34;</span><span class="o">:</span> <span class="s2">&#34;2020-12-06T11:04:05.000Z&#34;</span><span class="p">,</span>
+  <span class="s2">&#34;user&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&#34;id&#34;</span><span class="o">:</span> <span class="s2">&#34;vlb44hny&#34;</span>
+  <span class="p">},</span>
+  <span class="s2">&#34;message&#34;</span><span class="o">:</span> <span class="s2">&#34;Login attempt failed&#34;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;_index&#34;</span> <span class="p">:</span> <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;_type&#34;</span> <span class="p">:</span> <span class="s2">&#34;_doc&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;_id&#34;</span> <span class="p">:</span> <span class="s2">&#34;8ZadZXkBkhA9X9yUbI17&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;_version&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;result&#34;</span> <span class="p">:</span> <span class="s2">&#34;created&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;_shards&#34;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;total&#34;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&#34;successful&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&#34;failed&#34;</span> <span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;_seq_no&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;_primary_term&#34;</span> <span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>也可以直接 PUT 创建一个空的 Data stream。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT /_data_stream/my-data-stream
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="删除">删除</h3>
+<p>删除命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">DELETE /_data_stream/my-data-stream
+</code></pre></td></tr></table>
+</div>
+</div><p>删除数据流会将数据流的后备索引一起删除。</p>
+<h2 id="使用-data-stream">使用 Data stream</h2>
+<p>此处对数据流的操作主要以命令为主，Kibana 界面支持较少。</p>
+<h3 id="新增数据">新增数据</h3>
+<p>Data stream 在新增数据时是只追加的模式，因此在固定 id 和 bulk 的模式下，op_type 是指定 create 的。</p>
+<p>如下面命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST my-data-stream/_create/1
+<span class="o">{</span><span class="s2">&#34;@timestamp&#34;</span>:<span class="s2">&#34;2020-12-07T11:06:07.000Z&#34;</span>,<span class="s2">&#34;test&#34;</span>:1<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>或者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT /my-data-stream/_bulk?refresh
+<span class="o">{</span><span class="s2">&#34;create&#34;</span>:<span class="o">{</span> <span class="o">}}</span>
+<span class="o">{</span> <span class="s2">&#34;@timestamp&#34;</span>: <span class="s2">&#34;2020-12-08T11:04:05.000Z&#34;</span>, <span class="s2">&#34;user&#34;</span>: <span class="o">{</span> <span class="s2">&#34;id&#34;</span>: <span class="s2">&#34;vlb44hny&#34;</span> <span class="o">}</span>, <span class="s2">&#34;message&#34;</span>: <span class="s2">&#34;Login attempt failed&#34;</span> <span class="o">}</span>
+<span class="o">{</span><span class="s2">&#34;create&#34;</span>:<span class="o">{</span> <span class="o">}}</span>
+<span class="o">{</span> <span class="s2">&#34;@timestamp&#34;</span>: <span class="s2">&#34;2020-12-08T11:06:07.000Z&#34;</span>, <span class="s2">&#34;user&#34;</span>: <span class="o">{</span> <span class="s2">&#34;id&#34;</span>: <span class="s2">&#34;8a4f500d&#34;</span> <span class="o">}</span>, <span class="s2">&#34;message&#34;</span>: <span class="s2">&#34;Login successful&#34;</span> <span class="o">}</span>
+<span class="o">{</span><span class="s2">&#34;create&#34;</span>:<span class="o">{</span> <span class="o">}}</span>
+<span class="o">{</span> <span class="s2">&#34;@timestamp&#34;</span>: <span class="s2">&#34;2020-12-09T11:07:08.000Z&#34;</span>, <span class="s2">&#34;user&#34;</span>: <span class="o">{</span> <span class="s2">&#34;id&#34;</span>: <span class="s2">&#34;l7gk7f82&#34;</span> <span class="o">}</span>, <span class="s2">&#34;message&#34;</span>: <span class="s2">&#34;Logout successful&#34;</span> <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果并不指定，文档的 id，则可以使用默认的 _doc ，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST my-data-stream/_doc/
+<span class="o">{</span><span class="s2">&#34;@timestamp&#34;</span>:<span class="s2">&#34;2020-12-07T11:06:07.000Z&#34;</span>,<span class="s2">&#34;test&#34;</span>:1<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="获取-data-stream-状态">获取 Data stream 状态</h3>
+<p>使用 Data stream stats API 查看 Data stream 的状态。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">GET /_data_stream/my-data-stream/_stats?human<span class="o">=</span><span class="nb">true</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+  <span class="s2">&#34;_shards&#34;</span> : <span class="o">{</span>
+    <span class="s2">&#34;total&#34;</span> : 4,
+    <span class="s2">&#34;successful&#34;</span> : 2,
+    <span class="s2">&#34;failed&#34;</span> : <span class="m">0</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;data_stream_count&#34;</span> : 1,
+  <span class="s2">&#34;backing_indices&#34;</span> : 1,
+  <span class="s2">&#34;total_store_size&#34;</span> : <span class="s2">&#34;5kb&#34;</span>,
+  <span class="s2">&#34;total_store_size_bytes&#34;</span> : 5151,
+  <span class="s2">&#34;data_streams&#34;</span> : <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">&#34;data_stream&#34;</span> : <span class="s2">&#34;my-data-stream&#34;</span>,
+      <span class="s2">&#34;backing_indices&#34;</span> : 1,
+      <span class="s2">&#34;store_size&#34;</span> : <span class="s2">&#34;5kb&#34;</span>,
+      <span class="s2">&#34;store_size_bytes&#34;</span> : 5151,
+      <span class="s2">&#34;maximum_timestamp&#34;</span> : <span class="m">1607252645000</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见 my-data-stream 的大下和后备索引数量。</p>
+<p>同时需要用 _ilm/explain 获取 Data stream 后备索引所在的 ILM 策略状态。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">GET my-data-stream/_ilm/explain
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+  <span class="s2">&#34;indices&#34;</span> : <span class="o">{</span>
+    <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span> : <span class="o">{</span>
+      <span class="s2">&#34;index&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span>,
+      <span class="s2">&#34;managed&#34;</span> : true,
+      <span class="s2">&#34;policy&#34;</span> : <span class="s2">&#34;my-data-stream-policy&#34;</span>,
+      <span class="s2">&#34;lifecycle_date_millis&#34;</span> : 1620907943375,
+      <span class="s2">&#34;age&#34;</span> : <span class="s2">&#34;7.95s&#34;</span>,
+      <span class="s2">&#34;phase&#34;</span> : <span class="s2">&#34;hot&#34;</span>,
+      <span class="s2">&#34;phase_time_millis&#34;</span> : 1620907943567,
+      <span class="s2">&#34;action&#34;</span> : <span class="s2">&#34;rollover&#34;</span>,
+      <span class="s2">&#34;action_time_millis&#34;</span> : 1620907943661,
+      <span class="s2">&#34;step&#34;</span> : <span class="s2">&#34;check-rollover-ready&#34;</span>,
+      <span class="s2">&#34;step_time_millis&#34;</span> : 1620907943661,
+      <span class="s2">&#34;phase_execution&#34;</span> : <span class="o">{</span>
+        <span class="s2">&#34;policy&#34;</span> : <span class="s2">&#34;my-data-stream-policy&#34;</span>,
+        <span class="s2">&#34;phase_definition&#34;</span> : <span class="o">{</span>
+          <span class="s2">&#34;min_age&#34;</span> : <span class="s2">&#34;0ms&#34;</span>,
+          <span class="s2">&#34;actions&#34;</span> : <span class="o">{</span>
+            <span class="s2">&#34;rollover&#34;</span> : <span class="o">{</span>
+              <span class="s2">&#34;max_size&#34;</span> : <span class="s2">&#34;25gb&#34;</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+        <span class="o">}</span>,
+        <span class="s2">&#34;version&#34;</span> : 1,
+        <span class="s2">&#34;modified_date_in_millis&#34;</span> : <span class="m">1620907939978</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上图可见，这个数据的 000001 索引主要处于 hot 阶段，策略名称是 logs 等信息。具体参数可见于 ILM 的相关定义。</p>
+<h3 id="手动-rollover-data-stream">手动 rollover Data stream</h3>
+<p>使用 rollover API，手动 rollover Data stream。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST my-data-stream/_rollover
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+  <span class="s2">&#34;acknowledged&#34;</span> : true,
+  <span class="s2">&#34;shards_acknowledged&#34;</span> : true,
+  <span class="s2">&#34;old_index&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span>,
+  <span class="s2">&#34;new_index&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000002&#34;</span>,
+  <span class="s2">&#34;rolled_over&#34;</span> : true,
+  <span class="s2">&#34;dry_run&#34;</span> : false,
+  <span class="s2">&#34;conditions&#34;</span> : <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再 GET 相关 Data stream 状态，后备索引增加。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">GET /_data_stream/my-data-stream/
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+  <span class="s2">&#34;data_streams&#34;</span> : <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">&#34;name&#34;</span> : <span class="s2">&#34;my-data-stream&#34;</span>,
+      <span class="s2">&#34;timestamp_field&#34;</span> : <span class="o">{</span>
+        <span class="s2">&#34;name&#34;</span> : <span class="s2">&#34;@timestamp&#34;</span>
+      <span class="o">}</span>,
+      <span class="s2">&#34;indices&#34;</span> : <span class="o">[</span>
+        <span class="o">{</span>
+          <span class="s2">&#34;index_name&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span>,
+          <span class="s2">&#34;index_uuid&#34;</span> : <span class="s2">&#34;AJBi0g3fRyG8-1tiH2UD2Q&#34;</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+          <span class="s2">&#34;index_name&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000002&#34;</span>,
+          <span class="s2">&#34;index_uuid&#34;</span> : <span class="s2">&#34;AgOLGMSBSYWb4X-ID8uwtg&#34;</span>
+        <span class="o">}</span>
+      <span class="o">]</span>,
+      <span class="s2">&#34;generation&#34;</span> : 2,
+      <span class="s2">&#34;status&#34;</span> : <span class="s2">&#34;GREEN&#34;</span>,
+      <span class="s2">&#34;template&#34;</span> : <span class="s2">&#34;my-data-stream-template&#34;</span>,
+      <span class="s2">&#34;ilm_policy&#34;</span> : <span class="s2">&#34;my-data-stream-policy&#34;</span>,
+      <span class="s2">&#34;hidden&#34;</span> : <span class="nb">false</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="reindex-data-stream">Reindex Data stream</h3>
+<p>使用 reindex API 去复制数据到一个 Data stream。由于 Data stream 的只追加特性，在 op_type 中要选择为 create 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST /_reindex
+<span class="o">{</span>
+  <span class="s2">&#34;source&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;index&#34;</span>: <span class="s2">&#34;test&#34;</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;dest&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;index&#34;</span>: <span class="s2">&#34;my-data-stream&#34;</span>,
+    <span class="s2">&#34;op_type&#34;</span>: <span class="s2">&#34;create&#34;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;took&#34;</span> <span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+  <span class="nt">&#34;timed_out&#34;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nt">&#34;total&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;updated&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;created&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;deleted&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;batches&#34;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&#34;version_conflicts&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;noops&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;retries&#34;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;bulk&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&#34;search&#34;</span> <span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;throttled_millis&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;requests_per_second&#34;</span> <span class="p">:</span> <span class="mf">-1.0</span><span class="p">,</span>
+  <span class="nt">&#34;throttled_until_millis&#34;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&#34;failures&#34;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="deleteupdate-by-query">Delete/Update by query</h3>
+<p>针对 Data stream 只能 delete/update by query 。</p>
+<p>相关命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST /my-data-stream/_update_by_query
+<span class="o">{</span>
+  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;match&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;user.id&#34;</span>: <span class="s2">&#34;l7gk7f82&#34;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;script&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;source&#34;</span>: <span class="s2">&#34;ctx._source.user.id = params.new_id&#34;</span>,
+    <span class="s2">&#34;params&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;new_id&#34;</span>: <span class="s2">&#34;XgdX0NoX&#34;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+POST /my-data-stream/_delete_by_query
+<span class="o">{</span>
+  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;match&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;user.id&#34;</span>: <span class="s2">&#34;vlb44hny&#34;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="delete-update-后备索引数据">Delete update 后备索引数据</h3>
+<p>在后备索引删除或者修改，需要注意下面三个要素:</p>
+<ul>
+<li>
+<p>文档 id。</p>
+</li>
+<li>
+<p>文档所在的后备索引。</p>
+</li>
+<li>
+<p>如果是修改文档，则需要其 _seq_no 和 _primary_term 两个参数。</p>
+</li>
+</ul>
+<p>主要操作如下：</p>
+<p>先获取文档所需的要素信息，设置 seq_no_primary_term 为 true。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">GET /my-data-stream/_search
+<span class="o">{</span>
+  <span class="s2">&#34;seq_no_primary_term&#34;</span>: true,
+  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;match&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;message&#34;</span>: <span class="s2">&#34;Login attempt failed&#34;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>获得结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+  <span class="s2">&#34;took&#34;</span> : 621,
+  <span class="s2">&#34;timed_out&#34;</span> : false,
+  <span class="s2">&#34;_shards&#34;</span> : <span class="o">{</span>
+    <span class="s2">&#34;total&#34;</span> : 2,
+    <span class="s2">&#34;successful&#34;</span> : 2,
+    <span class="s2">&#34;skipped&#34;</span> : 0,
+    <span class="s2">&#34;failed&#34;</span> : <span class="m">0</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;hits&#34;</span> : <span class="o">{</span>
+    <span class="s2">&#34;total&#34;</span> : <span class="o">{</span>
+      <span class="s2">&#34;value&#34;</span> : 1,
+      <span class="s2">&#34;relation&#34;</span> : <span class="s2">&#34;eq&#34;</span>
+    <span class="o">}</span>,
+    <span class="s2">&#34;max_score&#34;</span> : 0.8630463,
+    <span class="s2">&#34;hits&#34;</span> : <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">&#34;_index&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span>,
+        <span class="s2">&#34;_type&#34;</span> : <span class="s2">&#34;_doc&#34;</span>,
+        <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;9ZakZXkBkhA9X9yUZo2P&#34;</span>,
+        <span class="s2">&#34;_seq_no&#34;</span> : 0,
+        <span class="s2">&#34;_primary_term&#34;</span> : 1,
+        <span class="s2">&#34;_score&#34;</span> : 0.8630463,
+        <span class="s2">&#34;_source&#34;</span> : <span class="o">{</span>
+          <span class="s2">&#34;@timestamp&#34;</span> : <span class="s2">&#34;2020-12-06T11:04:05.000Z&#34;</span>,
+          <span class="s2">&#34;user&#34;</span> : <span class="o">{</span>
+            <span class="s2">&#34;id&#34;</span> : <span class="s2">&#34;vlb44hny&#34;</span>
+          <span class="o">}</span>,
+          <span class="s2">&#34;message&#34;</span> : <span class="s2">&#34;Login attempt failed&#34;</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后修改命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT /.ds-my-data-stream-000001/_doc/9ZakZXkBkhA9X9yUZo2P?if_seq_no<span class="o">=</span>0<span class="p">&amp;</span><span class="nv">if_primary_term</span><span class="o">=</span><span class="m">1</span>
+<span class="o">{</span>
+  <span class="s2">&#34;@timestamp&#34;</span>: <span class="s2">&#34;2020-12-07T11:06:07.000Z&#34;</span>,
+  <span class="s2">&#34;test&#34;</span>: <span class="m">4</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Response:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">{</span>
+  <span class="s2">&#34;_index&#34;</span> : <span class="s2">&#34;.ds-my-data-stream-000001&#34;</span>,
+  <span class="s2">&#34;_type&#34;</span> : <span class="s2">&#34;_doc&#34;</span>,
+  <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;9ZakZXkBkhA9X9yUZo2P&#34;</span>,
+  <span class="s2">&#34;_version&#34;</span> : 2,
+  <span class="s2">&#34;result&#34;</span> : <span class="s2">&#34;updated&#34;</span>,
+  <span class="s2">&#34;_shards&#34;</span> : <span class="o">{</span>
+    <span class="s2">&#34;total&#34;</span> : 2,
+    <span class="s2">&#34;successful&#34;</span> : 1,
+    <span class="s2">&#34;failed&#34;</span> : <span class="m">0</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;_seq_no&#34;</span> : 1,
+  <span class="s2">&#34;_primary_term&#34;</span> : <span class="m">1</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>或者删除命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">DELETE  /.ds-logs-1-1-000002/_doc/3
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="关于修改-data-stream-的-mapping-和-setting">关于修改 Data stream 的 mapping 和 setting</h3>
+<p>Data stream 的 setting 和 mapping 修改主要还是基于 Elasticsearch 默认的修改规则。总结一下，主要有以下几点：</p>
+<ul>
+<li>新增字段不影响。</li>
+<li>已存在的配置不可更改。</li>
+<li>修改的 template 只能应用于未来新增的索引。</li>
+</ul>
+<p>因此，如果需要修改不可更改的配置，可以考虑 reindex 或者修改 template 后手工 Rollover Data stream。</p>
+<h2 id="关于-data-tiers">关于 Data tiers</h2>
+<p>Data tiers 也称数据层，是一个在 7.10 版本的一个新概念。</p>
+<p>Data tiers 主要的一个特点是将节点角色（ node roles ）与索引生命周期所需要的节点属性（ attribute ）结合，直接可以在制定 Elasticsearch 节点角色时配置，不需要再去设置 attribute 。Data tiers 的概念也是对时序性数据分层管理的优化配置。</p>
+<p>Data tiers 的数据节点默认是都配置的，即 data_content/data_hot/data_warm/data_cold（ chsw ）都具备。</p>
+<h3 id="tiers-的定义">Tiers 的定义</h3>
+<ul>
+<li>
+<p>Content tier</p>
+<p>Content tier 节点存储的数据，往往定义为与时序性数据相反的常态化数据，比如商品种类这种随着时间推移保持相对不变。这种数据并不能根据冷热数据性质分层存储。</p>
+<p>此类数据有以下特点：</p>
+<ul>
+<li>
+<p>Content tier 节点通常需要较高的计算性能，要求处理能力比 IO 吞吐能力高，需要处理复杂的搜索和聚合并快速返回结果。</p>
+</li>
+<li>
+<p>对数据内容的获取，即文档内容本身获取比时序性数据要少。</p>
+</li>
+<li>
+<p>这类数据索引需要配置为一个或多个副本。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Hot tier</p>
+<p>Hot tier，热层是时间序列数据的 Elasticsearch 入口点，最新存储的时间序列数据。Hot tier 的数据也是会被查询最多的数据。因此热层中的节点在读取和写入时都需要快速，这需要更多的硬件资源和更快的存储（ SSD）。属于数据流 （ Data stream ）的新索引会自动分配给热层。</p>
+</li>
+<li>
+<p>Warm tier</p>
+<p>即温层，一旦查询时间序列数据的频率低于 hot tier 中最近索引的数据，便可以将其移至 warm tier 。 warm tier 通常保存最近几周的数据。 仍然允许进行更新，但可能很少。通常，warm tier 中的节点不需要像 hot tier 中的节点一样快。</p>
+</li>
+<li>
+<p>Cold tier</p>
+<p>冷层的数据一般查询频率非常低，且不会被更新。 但是 cold tier 仍然是响应查询层。 随着数据过渡到 cold tier，可以对其进行压缩和去副本。Cold tier节点的机器配置可以相对较低。</p>
+</li>
+</ul>
+<h3 id="tier_preference">tier_preference</h3>
+<p>index.routing.allocation.include._tier_preference 是 Data tiers 的主要配置方式，在分片数据的时候使用 tier_preference 指定数据节点的分配。</p>
+<p>tier_preference 的设置会有三种情况：</p>
+<ol>
+<li>
+<p>创建正常索引时，默认情况下，Elasticsearch 将 index.routing.allocation.include._tier_preference 设置为 data_content ，以将索引分片自动分配给内容层。</p>
+</li>
+<li>
+<p>创建数据流时，Elasticsearch 会将后备索引的 index.routing.allocation.include._tier_preference 设置为 data_hot，以自动将索引分片分配给热层。</p>
+</li>
+<li>
+<p>显式设置 index.routing.allocation.include._tier_preference，选择索引需要的数据节点。 如果将层首选项设置为 null，则 Elasticsearch 在分配期间将忽略数据层角色，依照其它参数分配。</p>
+</li>
+</ol>
+<p>相关的图形和命令配置如下：</p>
+<p><img src="E:%5Ccode%5CGitHub%5Cblog%5Ccontent%5Cpost%5Celasticsearch%5Cdata-streams%5C10.png" alt=""></p>
+<p>上图时在索引生命周期管理中选择 Data tiers节点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT _index_template/template_demo
+<span class="o">{</span>
+  <span class="s2">&#34;index_patterns&#34;</span>: <span class="o">[</span><span class="s2">&#34;demo-*&#34;</span><span class="o">]</span>,
+  <span class="s2">&#34;data_stream&#34;</span>: <span class="o">{}</span>,
+  <span class="s2">&#34;priority&#34;</span>: 200,
+  <span class="s2">&#34;template&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;settings&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;number_of_shards&#34;</span>: 2,
+      <span class="s2">&#34;index.lifecycle.name&#34;</span>: <span class="s2">&#34;demo&#34;</span>,
+      <span class="s2">&#34;index.routing.allocation.include._tier_preference&#34;</span>: <span class="s2">&#34;data_hot&#34;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面命令中设置索引模板匹配 demo-* 的索引的分配策略为 &ldquo;index.routing.allocation.include._tier_preference&rdquo;:&ldquo;data_hot&rdquo;</p>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">Elasticsearch</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elasticsearch/data-streams/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Data Streams</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/elasticsearch/app-search/">
+            <span class="next-text nav-default">App Search</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
