@@ -48,7 +48,7 @@
 <meta itemprop="description" content="elasticsearch ILM">
 <meta itemprop="datePublished" content="2021-04-15T21:31:10&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-15T21:31:10&#43;08:00" />
-<meta itemprop="wordCount" content="2956">
+<meta itemprop="wordCount" content="4769">
 
 
 
@@ -128,8 +128,8 @@
         <div class="post-category">
             <a href="/categories/elasticsearch/"> elasticsearch  </a>
             </div>
-          <span class="more-meta"> 约 2956 字 </span>
-          <span class="more-meta"> 预计阅读 6 分钟 </span>
+          <span class="more-meta"> 约 4769 字 </span>
+          <span class="more-meta"> 预计阅读 10 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
     </header>
@@ -137,7 +137,10 @@
     
     <div class="post-content">
       <p>elasticsearch 生命周期介绍</p>
+<p>本文已收录至《Elastic Stack 实战手册》，欢迎和我一起解锁开发者共创书籍，系统学习 Elasticsearch</p>
+<p><img src="/images/alibaba.png" alt=""></p>
 <h1 id="索引生命周期管理">索引生命周期管理</h1>
+<p>Elasticsearch 在 6.7 版本正式加入索引生命周期管理，旨在管理 Elasticsearch 中的索引。</p>
 <p>通常我们使用 elasticsearch 的时候，index 命名都是 xxx-YYYY.MM.dd 类似这样的格式，每天创建一个index，这需要我们自己创建 index，或者通过自动创建。</p>
 <ol>
 <li>每天创建一个 index，但是每天的数据量又非常少，这对集群来说是不利的。</li>
@@ -148,21 +151,53 @@
 <h2 id="索引生命周期的四个阶段">索引生命周期的四个阶段</h2>
 <ul>
 <li>
-<p>Hot: index 正在查询和更新</p>
+<p>Hot</p>
+<p>index 正在查询和更新，一般性能好的机器会设置为 Hot 节点来进行数据的读写。</p>
 </li>
 <li>
-<p>Warm: index 不再更新，但是仍然需要查询</p>
+<p>Warm</p>
+<p>index不再更新，但是仍然需要查询，节点性能一般可以设置为 Warm 节点。</p>
 </li>
 <li>
-<p>Cold: index 不再被更新，且很少被查询，数据仍然可以搜索，但是能接受较慢的查询。</p>
+<p>Cold</p>
+<p>index不再被更新，且很少被查询，数据仍然可以搜索，但是能接受较慢的查询，节点性能较差，但有大量的磁盘空间。</p>
 </li>
 <li>
-<p>Delete: 数据不需要了，可以删除。</p>
+<p>Delete</p>
+<p>数据不需要了，可以删除。</p>
 </li>
 </ul>
-<p>这四个阶段按照 Hot, Warm, Cold, Delete 顺序执行，上一个阶段没有执行完成是不会执行下一个阶段的。</p>
-<p>min_age 参数指定从 index 创建后多长时间进入到该阶段。</p>
-<p>生命周期默认每 10 分钟检测一次，可以通过集群的配置动态修改。</p>
+<p>节点的类型可以通过一下两种方式设置，推荐第二种，第一种后续可能会弃用。</p>
+<p>第一种：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># elasticsearch.yml</span><span class="w">
+</span><span class="w"></span><span class="c"># node.attr.xxx: xxx</span><span class="w">
+</span><span class="w"></span><span class="k">node.attr.data</span><span class="p">:</span><span class="w"> </span>warm<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>第二种（推荐）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># elasticsearch.yml </span><span class="w">
+</span><span class="w"></span><span class="c"># data_content, data_hot, data_warm, data_cold</span><span class="w">
+</span><span class="w"></span><span class="c"># 配置该节点既属于内容层又属于热层</span><span class="w">
+</span><span class="w"></span><span class="k">node.roles</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;data_hot&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;data_content&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>这四个阶段按照 Hot，Warm，Cold，Delete 顺序执行，上一个阶段没有执行完成是不会执行下一个阶段的，对于不存在的阶段，会跳过该阶段进入到下一个阶段。</p>
+<p>生命周期默认每 10 分钟检测一次，可以通过集群的配置动态修改，如下</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -181,16 +216,232 @@
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="四个阶段支持的行为">四个阶段支持的行为</h2>
+</div><h2 id="生命周期管理-api">生命周期管理 API</h2>
+<p>每个阶段支持的行为会在下一章节进行介绍，此章节仅仅为了介绍 API。</p>
+<ol>
+<li>
+<p>创建生命周期管理策略</p>
+<p>min_age 参数指定从 index 创建后多长时间进入到该阶段。</p>
+<p>以下示例是指从当 index 创建时间超过 10 天后，进入到 warm 阶段，将 segment 数量 merge 为 1，warm 阶段完成后，进入 delete 阶段，index 创建时间超过 30 天后，将 index 删除。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT _ilm/policy/my_policy
+<span class="o">{</span>
+  <span class="s2">&#34;policy&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;phases&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;warm&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;10d&#34;</span>,
+        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;forcemerge&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;max_num_segments&#34;</span>: <span class="m">1</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>,
+      <span class="s2">&#34;delete&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;30d&#34;</span>,
+        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;delete&#34;</span>: <span class="o">{}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看生命周期管理策略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 查看所有的生命周期管理策略</span>
+GET _ilm/policy
+   
+<span class="c1"># 查看特定的生命周期管理策略</span>
+<span class="c1"># GET _ilm/policy/&lt;policy_id&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>删除生命周期管理策略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">DELETE _ilm/policy/&lt;policy_id&gt;
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>触发生命周期策略中特定步骤的执行</p>
+<p>current_step</p>
+<ul>
+<li>phase 当前阶段的名称</li>
+<li>action 当前行为的名称</li>
+<li>name  当前步骤的名称</li>
+</ul>
+<p>next_step</p>
+<ul>
+<li>phase 想要执行阶段的名称</li>
+<li>action 想要执行行为的名称</li>
+<li>name  想要执行步骤的名称</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST _ilm/move/my-index-000001
+<span class="o">{</span>
+  <span class="s2">&#34;current_step&#34;</span>: <span class="o">{</span> 
+    <span class="s2">&#34;phase&#34;</span>: <span class="s2">&#34;new&#34;</span>,
+    <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;complete&#34;</span>,
+    <span class="s2">&#34;name&#34;</span>: <span class="s2">&#34;complete&#34;</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;next_step&#34;</span>: <span class="o">{</span> 
+    <span class="s2">&#34;phase&#34;</span>: <span class="s2">&#34;warm&#34;</span>,
+    <span class="s2">&#34;action&#34;</span>: <span class="s2">&#34;forcemerge&#34;</span>,
+    <span class="s2">&#34;name&#34;</span>: <span class="s2">&#34;forcemerge&#34;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>
+<p>移除生命周期管理策略</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># POST &lt;target&gt;/_ilm/remove</span>
+POST my-index-000001/_ilm/remove
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>生命周期重试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># POST &lt;index&gt;/_ilm/retry</span>
+POST my-index-000001/_ilm/retry
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看当前索引生命周期管理状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">GET /_ilm/status
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看一个或多个索引的当前生命周期状态</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># GET &lt;target&gt;/_ilm/explain</span>
+GET my-index-000001/_ilm/explain
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>启动索引生命周期管理插件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST _ilm/start
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>停止索引生命周期管理插件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">POST /_ilm/stop
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+</li>
+</ol>
+<h2 id="四个阶段支持的行为">四个阶段支持的行为</h2>
 <p>索引生命周期每个阶段支持的行为如下：</p>
 <ul>
 <li>
 <p>Hot</p>
 <ul>
-<li>Set Priority</li>
-<li>Unfollow</li>
-<li>Force Merge</li>
-<li>Rollover</li>
+<li>
+<p>Set Priority</p>
+</li>
+<li>
+<p>Unfollow</p>
+</li>
+<li>
+<p>Force Merge</p>
+</li>
+<li>
+<p>Rollover</p>
+</li>
 </ul>
 </li>
 <li>
@@ -198,7 +449,7 @@
 <ul>
 <li>Set Priority</li>
 <li>Unfollow</li>
-<li>Read-Only</li>
+<li>Read only</li>
 <li>Allocate</li>
 <li>Shrink</li>
 <li>Force Merge</li>
@@ -219,24 +470,19 @@
 <li>
 <p>Delete</p>
 <ul>
-<li>
-<p>Wait For Snapshot</p>
-</li>
-<li>
-<p>Delete</p>
-</li>
+<li>Wait For Snapshot</li>
+<li>Delete</li>
 </ul>
 </li>
 </ul>
-<h2 id="行为">行为</h2>
+<h3 id="行为">行为</h3>
 <p><strong>Set Priority</strong></p>
 <p>设置索引的优先级，一旦进入到某阶段，就设置索引的优先级，节点重新启动后，优先级较高的索引将会优先恢复。</p>
 <p>参数:</p>
 <ul>
-<li></li>
+<li>priority:  正整数。</li>
 </ul>
-<p>priority:  正整数。</p>
-<p>例如：</p>
+<p>例如：设置 warm 阶段 index 的优先级为 50</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -272,7 +518,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p><strong>Rollover</strong></p>
-<p>当 index 满足三个条件中的任何一个时，会将别名过渡的新索引。</p>
+<p>当 index 满足三个条件中的任何一个时，会将别名指向新生成的索引。</p>
 <p>参数：</p>
 <ul>
 <li>
@@ -289,7 +535,7 @@
 </li>
 </ul>
 <p>以上三个参数至少应该存在一个</p>
-<p>例如：</p>
+<p>例如：当前 index 主分片大小达到 100GB 或文档数超过 100000000 或者 index 创建超过 7天 生产新的 index</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -383,7 +629,7 @@
 </li>
 </ul>
 <p>Note: include 满足其中一个就可以， require 必须全部满足。</p>
-<p>例如：</p>
+<p>例如：到达 warm 阶段将 index 的备份数设置为 2，并且将 index 迁移至属性 box_type 包含 hot, warm 且不包含 cold 的节点。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -409,7 +655,6 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">PUT _ilm/policy/my_policy
@@ -435,7 +680,6 @@
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-
 </code></pre></td></tr></table>
 </div>
 </div><p><strong>Force Merge</strong></p>
@@ -451,7 +695,7 @@
 <p>压缩文件存储， default: LZ4</p>
 </li>
 </ul>
-<p>例如：</p>
+<p>例如：warm 阶段将 index 的 segments 合并为 1。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -520,7 +764,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p><strong>Shrink</strong></p>
-<p>index 设置为只读，然后将 index 缩小为具有更少的的 shard， 缩小后的 index 名称为 shrink-<!-- raw HTML omitted --></p>
+<p>index 设置为只读，然后将 index 缩小为具有更少的的 shard， 缩小后的 index 名称为 shrink-&lt;original-index-name&gt;</p>
 <p>参数：</p>
 <ul>
 <li>
@@ -528,7 +772,7 @@
 <p>合并后的主分片数</p>
 </li>
 </ul>
-<p>例如：</p>
+<p>例如：warm 阶段将 index 的 shard 数合并为 1 个。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -565,7 +809,7 @@
 </div>
 </div><p><strong>Freeze</strong></p>
 <p>最大程度减少 index 的内存占用。</p>
-<p>例如：</p>
+<p>例如：cold 阶段将 index freeze，释放内存。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -605,7 +849,7 @@
 <p>default: true, 控制 ILM 在此阶段是否自动迁移索引</p>
 </li>
 </ul>
-<p>例如：</p>
+<p>例如：warm 阶段禁用迁移操作， 主动将 index 备份数设置为 1，并且将 index 迁移至属性 rack_id 为 one 或者 two 的节点。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -654,7 +898,7 @@
 </div>
 </div><p><strong>Searchable Snapshot</strong></p>
 <p>生成可搜索快照，在 7.10 版本还处于 beta，在新版可能会有所更改。</p>
-<p>在 delete action 步骤中默认会删除快照，如果需要保留，在 delete action 中 将 delete_searchable_snapshot 设置 false</p>
+<p>在 delete action 步骤中默认会删除快照，如果需要保留，在 delete action 中将 delete_searchable_snapshot 设置 false</p>
 <p>参数：</p>
 <ul>
 <li>
@@ -666,7 +910,7 @@
 <p>Boolean，default: true,  如果索引在先前的操作中已经使用了 force merge， 则可搜索快照操作不会执行强制合并。</p>
 </li>
 </ul>
-<p>例如：</p>
+<p>例如：在 cold 阶段生成快照。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -707,10 +951,10 @@
 <ul>
 <li>
 <p>policy</p>
-<p>required， SML 策略的名字</p>
+<p>reqired， SML 策略的名字</p>
 </li>
 </ul>
-<p>例如：</p>
+<p>例如：delete 阶段等待 SLM 策略执行，然后删除索引。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -727,11 +971,9 @@
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">
-PUT _ilm/policy/my_policy
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT _ilm/policy/my_policy
 <span class="o">{</span>
   <span class="s2">&#34;policy&#34;</span>: <span class="o">{</span>
     <span class="s2">&#34;phases&#34;</span>: <span class="o">{</span>
@@ -756,7 +998,7 @@ PUT _ilm/policy/my_policy
 <p>boolean, default: true,  是否删除 cold 阶段创建的 searchable snapshot。</p>
 </li>
 </ul>
-<p>例如：</p>
+<p>例如：index 创建 90 天后，删除 index</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -771,6 +1013,7 @@ PUT _ilm/policy/my_policy
 </span><span class="lnt">10
 </span><span class="lnt">11
 </span><span class="lnt">12
+</span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">PUT _ilm/policy/my_policy
@@ -778,6 +1021,7 @@ PUT _ilm/policy/my_policy
   <span class="s2">&#34;policy&#34;</span>: <span class="o">{</span>
     <span class="s2">&#34;phases&#34;</span>: <span class="o">{</span>
       <span class="s2">&#34;delete&#34;</span>: <span class="o">{</span>
+		<span class="s2">&#34;min_age&#34;</span> : <span class="s2">&#34;90d&#34;</span>,
         <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
           <span class="s2">&#34;delete&#34;</span> : <span class="o">{</span> <span class="o">}</span>
         <span class="o">}</span>
@@ -801,6 +1045,9 @@ PUT _ilm/policy/my_policy
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># 启动命令</span><span class="w">
@@ -808,210 +1055,16 @@ PUT _ilm/policy/my_policy
 </span><span class="w">   
 </span><span class="w"></span><span class="c"># elasticsearch.yml</span><span class="w">
 </span><span class="w"></span><span class="c"># node.attr.xxx: xxx</span><span class="w">
+</span><span class="w"></span><span class="c"># 建议使用 node.roles 进行配置, 可以参考 通过 data tiers 使用 ILM 这一章节</span><span class="w">
+</span><span class="w"></span><span class="c"># node.attr 后续版本可能不在使用</span><span class="w">
+</span><span class="w">   
 </span><span class="w"></span><span class="k">node.attr.data</span><span class="p">:</span><span class="w"> </span>warm<span class="w">
 </span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">PUT _ilm/policy/logx_policy
-<span class="o">{</span>
-  <span class="s2">&#34;policy&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;phases&#34;</span>: <span class="o">{</span>
-      <span class="s2">&#34;hot&#34;</span>: <span class="o">{</span>
-        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;1d&#34;</span>,
-        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
-          <span class="s2">&#34;set_priority&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;priority&#34;</span>: <span class="m">100</span>
-          <span class="o">}</span>,
-          <span class="s2">&#34;rollover&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;max_age&#34;</span>: <span class="s2">&#34;2d&#34;</span>,
-            <span class="s2">&#34;max_docs&#34;</span>: 500000000,
-            <span class="s2">&#34;max_size&#34;</span>: <span class="s2">&#34;50gb&#34;</span>
-          <span class="o">}</span>
-        <span class="o">}</span>
-      <span class="o">}</span>,
-      <span class="s2">&#34;warm&#34;</span>: <span class="o">{</span>
-        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;1d&#34;</span>,
-        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
-          <span class="s2">&#34;set_priority&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;priority&#34;</span>: <span class="m">50</span>
-          <span class="o">}</span>,
-          <span class="s2">&#34;allocate&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;include&#34;</span>: <span class="o">{</span>
-              <span class="s2">&#34;data&#34;</span> : <span class="s2">&#34;warm&#34;</span>
-            <span class="o">}</span>
-          <span class="o">}</span>
-        <span class="o">}</span>
-      <span class="o">}</span>,
-      <span class="s2">&#34;cold&#34;</span>: <span class="o">{</span>
-        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;1d&#34;</span>,
-        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
-          <span class="s2">&#34;set_priority&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;priority&#34;</span>: <span class="m">0</span>
-          <span class="o">}</span>,
-          <span class="s2">&#34;allocate&#34;</span>: <span class="o">{</span>
-            <span class="s2">&#34;number_of_replicas&#34;</span>: 1,
-            <span class="s2">&#34;include&#34;</span> : <span class="o">{</span>
-              <span class="s2">&#34;data&#34;</span>: <span class="s2">&#34;cold&#34;</span>
-            <span class="o">}</span>
-          <span class="o">}</span>
-        <span class="o">}</span>
-      <span class="o">}</span>, 
-      <span class="s2">&#34;delete&#34;</span>: <span class="o">{</span>
-        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;7d&#34;</span>,
-        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
-          <span class="s2">&#34;delete&#34;</span>: <span class="o">{}</span>
-        <span class="o">}</span>
-      <span class="o">}</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>创建索引模板，将生命周期应用到 index</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">PUT _index_template/logx-template
-<span class="o">{</span>
-  <span class="s2">&#34;index_patterns&#34;</span> : <span class="o">[</span><span class="s2">&#34;logx-*&#34;</span><span class="o">]</span>,
-  <span class="s2">&#34;priority&#34;</span> : 200,
-  <span class="s2">&#34;template&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;settings&#34;</span> : <span class="o">{</span>
-      <span class="s2">&#34;index&#34;</span> : <span class="o">{</span>
-     <span class="s2">&#34;number_of_shards&#34;</span> : <span class="s2">&#34;2&#34;</span>,
-     <span class="s2">&#34;number_of_replicas&#34;</span> : <span class="s2">&#34;1&#34;</span>,
-     <span class="s2">&#34;lifecycle.name&#34;</span>: <span class="s2">&#34;logx_policy&#34;</span>,
-     <span class="s2">&#34;lifecycle.rollover_alias&#34;</span>: <span class="s2">&#34;logx&#34;</span>
-   <span class="o">}</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>创建第一个 index，以下两种形式任选一种即可， index 格式必须满足该正则 <em>^.*-\d+$</em> , example：logs-000001</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">PUT logx-000001
-<span class="o">{</span>
-  <span class="s2">&#34;aliases&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;logx&#34;</span>: <span class="o">{</span>
-      <span class="s2">&#34;is_write_index&#34;</span>: <span class="nb">true</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-<span class="c1"># OR 带创建日期的 index</span>
-<span class="c1"># PUT /&lt;logx-{now/d}-1&gt; with URI encoding:</span>
-PUT /%3Clogx-%7Bnow%2Fd%7D-1%3E 
-<span class="o">{</span>
-  <span class="s2">&#34;aliases&#34;</span>: <span class="o">{</span>
-    <span class="s2">&#34;logx&#34;</span>: <span class="o">{</span>
-      <span class="s2">&#34;is_write_index&#34;</span>: <span class="nb">true</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span> 
-</code></pre></td></tr></table>
-</div>
-</div><p>后续的数据读写均使用固定别名 logx</p>
-<h2 id="通过-data-stream-使用-ilm">通过 data stream 使用 ILM</h2>
-<ol>
-<li>创建生命周期策略</li>
-</ol>
+</div><p>创建生命周期策略, 在 index 创建 1 天后进入 hot 阶段，设置优先级为 100， 当 index 主分片大小超过 50gb 或者 index 文档数超过 500000000 或者 index 创建超过 2 天生成新的 index</p>
+<p>warm 阶段将 index 迁移至属性 data 为 warm 的节点</p>
+<p>cold 阶段将 index 副本数设置为 1 并将 index 迁移至属性 data 为 cold 的节点</p>
+<p>当 hot ，warm，cold 阶段的动作都完成并且 index 创建达到 7 天，删除 index。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1126,10 +1179,10 @@ PUT _ilm/policy/logx_policy
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><ol start="2">
-<li>创建索引模板，将生命周期应用到 index</li>
-</ol>
-<p>与通过 alias 的形式区别: 在模板不需要指定 index.rollover_alias，也不需要手动创建第一个index，直接将数据写入符合模板的 index 即可，至于这个 index 在 elasticsearch 中对应几个index，我们无需关注。</p>
+</div></li>
+<li>
+<p>创建索引模板，将生命周期应用到 index</p>
+<p>设置 shard 数为 2， 备份数 为 1， 生命周期策略为 logx_policy，滚动别名为 logx</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1152,7 +1205,214 @@ PUT _ilm/policy/logx_policy
 <pre class="chroma"><code class="language-shell" data-lang="shell">PUT _index_template/logx-template
 <span class="o">{</span>
   <span class="s2">&#34;index_patterns&#34;</span> : <span class="o">[</span><span class="s2">&#34;logx-*&#34;</span><span class="o">]</span>,
-  <span class="s2">&#34;priority&#34;</span> : 200,
+  <span class="s2">&#34;priority&#34;</span> : 1,
+  <span class="s2">&#34;template&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;settings&#34;</span> : <span class="o">{</span>
+      <span class="s2">&#34;index&#34;</span> : <span class="o">{</span>
+     <span class="s2">&#34;number_of_shards&#34;</span> : <span class="s2">&#34;2&#34;</span>,
+     <span class="s2">&#34;number_of_replicas&#34;</span> : <span class="s2">&#34;1&#34;</span>,
+     <span class="s2">&#34;lifecycle.name&#34;</span>: <span class="s2">&#34;logx_policy&#34;</span>,
+     <span class="s2">&#34;lifecycle.rollover_alias&#34;</span>: <span class="s2">&#34;logx&#34;</span>
+   <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建第一个 index，以下两种形式任选一种即可， index 格式必须满足该正则 <em>^.*-\d+$</em> , example：logs-000001</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT logx-000001
+<span class="o">{</span>
+  <span class="s2">&#34;aliases&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;logx&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;is_write_index&#34;</span>: <span class="nb">true</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1"># OR 带创建日期的 index</span>
+<span class="c1"># PUT /&lt;logx-{now/d}-1&gt; with URI encoding:</span>
+PUT /%3Clogx-%7Bnow%2Fd%7D-1%3E 
+<span class="o">{</span>
+  <span class="s2">&#34;aliases&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;logx&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;is_write_index&#34;</span>: <span class="nb">true</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span> 
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p>后续的数据读写均使用固定别名 logx</p>
+<h2 id="通过-data-stream-使用-ilm">通过 Data stream 使用 ILM</h2>
+<ol>
+<li>
+<p>创建生命周期策略</p>
+<p>创建生命周期策略，在 index 创建 1 天后进入 hot 阶段，设置优先级为 100， 当 index 主分片大小超过 50gb 或者 index 文档数超过 500000000 或者 index 创建超过 2 天生成新的 index，warm 阶段将 index 迁移至属性 data 为 warm 的节点，cold 阶段将 index 副本数设置为 1 并将 index 迁移至属性 data 为 cold 的节点，当 hot ，warm，cold 阶段的动作都完成并且 index 创建达到 7 天，删除 index。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">   
+PUT _ilm/policy/logx_policy
+<span class="o">{</span>
+  <span class="s2">&#34;policy&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;phases&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;hot&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;1d&#34;</span>,
+        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;set_priority&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;priority&#34;</span>: <span class="m">100</span>
+          <span class="o">}</span>,
+          <span class="s2">&#34;rollover&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;max_age&#34;</span>: <span class="s2">&#34;2d&#34;</span>,
+            <span class="s2">&#34;max_docs&#34;</span>: 500000000,
+            <span class="s2">&#34;max_size&#34;</span>: <span class="s2">&#34;50gb&#34;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>,
+      <span class="s2">&#34;warm&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;1d&#34;</span>,
+        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;set_priority&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;priority&#34;</span>: <span class="m">50</span>
+          <span class="o">}</span>,
+          <span class="s2">&#34;allocate&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;include&#34;</span>: <span class="o">{</span>
+              <span class="s2">&#34;data&#34;</span> : <span class="s2">&#34;warm&#34;</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>,
+      <span class="s2">&#34;cold&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;1d&#34;</span>,
+        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;set_priority&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;priority&#34;</span>: <span class="m">0</span>
+          <span class="o">}</span>,
+          <span class="s2">&#34;allocate&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;number_of_replicas&#34;</span>: 1,
+            <span class="s2">&#34;include&#34;</span> : <span class="o">{</span>
+              <span class="s2">&#34;data&#34;</span>: <span class="s2">&#34;cold&#34;</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>, 
+      <span class="s2">&#34;delete&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;min_age&#34;</span>: <span class="s2">&#34;7d&#34;</span>,
+        <span class="s2">&#34;actions&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;delete&#34;</span>: <span class="o">{}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建索引模板，将生命周期应用到 index</p>
+<p>与通过 alias 的形式区别: 模板不需要指定 index.rollover_alias，也不需要手动创建第一个index，直接将数据写入符合模板的 index 即可，至于这个 index 在 Elasticsearch 中对应几个index，我们无需关注。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">PUT _index_template/logx-template
+<span class="o">{</span>
+  <span class="s2">&#34;index_patterns&#34;</span> : <span class="o">[</span><span class="s2">&#34;logx-*&#34;</span><span class="o">]</span>,
+  <span class="s2">&#34;priority&#34;</span> : 1,
   <span class="s2">&#34;data_stream&#34;</span>: <span class="o">{</span> <span class="o">}</span>,
   <span class="s2">&#34;template&#34;</span>: <span class="o">{</span>
     <span class="s2">&#34;settings&#34;</span> : <span class="o">{</span>
@@ -1166,9 +1426,9 @@ PUT _ilm/policy/logx_policy
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><ol start="3">
-<li>创建 data stream</li>
-</ol>
+</div></li>
+<li>
+<p>创建 data stream</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -1185,19 +1445,22 @@ PUT _ilm/policy/logx_policy
  <span class="s2">&#34;@timestamp&#34;</span>:<span class="s2">&#34;2021-04-13T11:04:05.000Z&#34;</span>,
  <span class="s2">&#34;message&#34;</span>:<span class="s2">&#34;Loginattemptfailed&#34;</span>
 <span class="o">}</span>
-OR 
+<span class="c1"># OR</span> 
 PUT /_data_stream/logx-business
 </code></pre></td></tr></table>
 </div>
-</div><p>后续的数据读写均使用固定index:  logx-business</p>
-</li>
+</div></li>
 </ol>
-<h2 id="通过-data-tiers-使用-ilm">通过 data tiers 使用 ILM</h2>
-<p>推荐冷热分离采用 data tiers 这种方式。</p>
-<ol>
-<li>
-<p>创建生命周期策略</p>
-<p>warm 阶段将 index 迁移至 warm 节点，cold 阶段禁用 migrate，将 index 分配给 rack_id 为 one 或 two 的节点。</p>
+<p>后续的数据读写均使用固定 index:  logx-business</p>
+<h2 id="通过-data-tiers-使用-ilm">通过 Data tiers 使用 ILM</h2>
+<p>data tiers （ 数据层 ）是具有相同数据角色的节点的集合</p>
+<ul>
+<li>Content tier （ 内容层 ）节点处理诸如产品目录之类的内容的索引和查询负载。</li>
+<li>Hot tier （ 热层 ） 节点处理诸如日志或指标之类的时间序列数据的索引负载，并保存你最近，最常访问的数据。</li>
+<li>Warm tier （ 温层 ）节点保存的时间序列数据访问频率较低，并且很少需要更新。</li>
+<li>Cold tier （ 冷层 ）节点保存时间序列数据，这些数据偶尔会被访问，并且通常不会更新。</li>
+</ul>
+<p>推荐冷热分离采用 data tiers 这种方式，节点可以通过如下配置方式配置：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -1206,13 +1469,18 @@ PUT /_data_stream/logx-business
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># elasticsearch.yml</span> 
-<span class="c1"># data_content, data_hot, data_warm, data_cold</span>
-<span class="c1"># 此节点既属于内容层也属于热层</span>
-node.roles: <span class="o">[</span><span class="s2">&#34;data_hot&#34;</span>, <span class="s2">&#34;data_content&#34;</span><span class="o">]</span>
-</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># elasticsearch.yml </span><span class="w">
+</span><span class="w"></span><span class="c"># data_content, data_hot, data_warm, data_cold</span><span class="w">
+</span><span class="w"></span><span class="c"># 配置该节点既属于内容层又属于热层</span><span class="w">
+</span><span class="w"></span><span class="k">node.roles</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;data_hot&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;data_content&#34;</span><span class="p">]</span><span class="w">
+</span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div class="chroma">
+</div><ol>
+<li>
+<p>创建生命周期策略</p>
+<p>warm 阶段将 index 迁移至 warm 节点，cold 阶段禁用 migrate，将 index 分配给 rack_id 为 one 或 two 的节点。</p>
+<p>创建生命周期策略，在 index 创建 1 天后进入 hot 阶段，设置优先级为 100， 当 index 主分片大小超过 50gb 或者 index 文档数超过 500000000 或者 index 创建超过 2 天生成新的 index，warm 阶段将 index 迁移至 warm 节点，cold 阶段将 index 副本数设置为 1，禁用 migrate， 并将 index 迁移至属性 data 为 cold 的节点，当 hot ，warm，cold 阶段的动作都完成并且 index 创建达到 7 天，删除 index。</p>
+<div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1305,7 +1573,7 @@ node.roles: <span class="o">[</span><span class="s2">&#34;data_hot&#34;</span>, 
           <span class="s2">&#34;allocate&#34;</span>: <span class="o">{</span>
             <span class="s2">&#34;number_of_replicas&#34;</span>: 1,
             <span class="s2">&#34;include&#34;</span> : <span class="o">{</span>
-              <span class="s2">&#34;rack_id&#34;</span>: <span class="s2">&#34;one,two&#34;</span>
+              <span class="s2">&#34;data&#34;</span>: <span class="s2">&#34;cold&#34;</span>
             <span class="o">}</span>
           <span class="o">}</span>, 
           <span class="s2">&#34;migrate&#34;</span> : <span class="o">{</span>
@@ -1327,6 +1595,7 @@ node.roles: <span class="o">[</span><span class="s2">&#34;data_hot&#34;</span>, 
 </div></li>
 <li>
 <p>创建索引模板，将生命周期应用到 index</p>
+<p>设置 shard 数为 2， 备份数 为 1， 生命周期策略为 logx_policy</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1349,7 +1618,7 @@ node.roles: <span class="o">[</span><span class="s2">&#34;data_hot&#34;</span>, 
 <pre class="chroma"><code class="language-shell" data-lang="shell">PUT _index_template/logx-template
 <span class="o">{</span>
   <span class="s2">&#34;index_patterns&#34;</span> : <span class="o">[</span><span class="s2">&#34;logx-*&#34;</span><span class="o">]</span>,
-  <span class="s2">&#34;priority&#34;</span> : 200,
+  <span class="s2">&#34;priority&#34;</span> : 1,
   <span class="s2">&#34;data_stream&#34;</span>: <span class="o">{</span> <span class="o">}</span>,
   <span class="s2">&#34;template&#34;</span>: <span class="o">{</span>
     <span class="s2">&#34;settings&#34;</span> : <span class="o">{</span>
@@ -1382,12 +1651,13 @@ node.roles: <span class="o">[</span><span class="s2">&#34;data_hot&#34;</span>, 
  <span class="s2">&#34;@timestamp&#34;</span>:<span class="s2">&#34;2021-04-13T11:04:05.000Z&#34;</span>,
  <span class="s2">&#34;message&#34;</span>:<span class="s2">&#34;Loginattemptfailed&#34;</span>
 <span class="o">}</span>
-OR 
+<span class="c1"># OR</span> 
 PUT /_data_stream/logx-business
 </code></pre></td></tr></table>
 </div>
 </div></li>
 </ol>
+<p>后续的数据读写均使用固定 index:  logx-business</p>
     </div>
 
     
