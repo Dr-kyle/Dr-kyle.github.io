@@ -16,13 +16,6 @@
   </url>
   
   <url>
-    <loc>https://dr-kyle.github.io/post/elasticsearch/data-streams/</loc>
-    <lastmod>2021-04-28T15:38:36+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://dr-kyle.github.io/post/elasticsearch/data-streams/data-streams/</loc>
     <lastmod>2021-04-28T15:38:36+08:00</lastmod>
     <changefreq>weekly</changefreq>
