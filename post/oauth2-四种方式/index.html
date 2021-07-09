@@ -151,7 +151,7 @@
 <p>指的是第三方应用先申请一个授权码，然后在用该码获取令牌</p>
 <p>适用于有后端的WEB应用，授权码通过前端传送，令牌则是存储在后端，而且所有与资源服务器的通信都在后端完成，这样的前后端分离，可以避免令牌泄露。</p>
 <h4 id="第一步">第一步：</h4>
-<p>A网站提供一个链接，用户点击后悔跳转到B网站，授权用户数据给A网站使用，下面就是A网站跳转B网站的一个示例链接</p>
+<p>A网站提供一个链接，用户点击后会跳转到B网站，授权用户数据给A网站使用，下面就是A网站跳转B网站的一个示例链接</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -199,16 +199,16 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
-	// 令牌
-  &#34;access_token&#34;:&#34;ACCESS_TOKEN&#34;,
-  &#34;token_type&#34;:&#34;bearer&#34;,
-  &#34;expires_in&#34;:2592000,
-  &#34;refresh_token&#34;:&#34;REFRESH_TOKEN&#34;,
-  &#34;scope&#34;:&#34;read&#34;,
-  &#34;uid&#34;:100101,
-  &#34;info&#34;:{...}
-}
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+	<span class="err">//</span> <span class="err">令牌</span>
+  <span class="nt">&#34;access_token&#34;</span><span class="p">:</span><span class="s2">&#34;ACCESS_TOKEN&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;token_type&#34;</span><span class="p">:</span><span class="s2">&#34;bearer&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;expires_in&#34;</span><span class="p">:</span><span class="mi">2592000</span><span class="p">,</span>
+  <span class="nt">&#34;refresh_token&#34;</span><span class="p">:</span><span class="s2">&#34;REFRESH_TOKEN&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;scope&#34;</span><span class="p">:</span><span class="s2">&#34;read&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;uid&#34;</span><span class="p">:</span><span class="mi">100101</span><span class="p">,</span>
+  <span class="nt">&#34;info&#34;</span><span class="p">:{</span><span class="err">...</span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="二-隐藏式">二 隐藏式</h2>
@@ -245,7 +245,7 @@
 </div><p>令牌的位置是URL锚点(fragment)， 而不是查询字符串(querystring), 这是因为OAuth2.0 允许跳转网址是HTTP协议，因此存在&quot;中间人攻击&quot;的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄露令牌的风险。</p>
 <p>这种方式把令牌直接传给前端，是很不安全的，因此，只能用于一些安全要求不高的场景，并且令牌的有效期必须非常短，通常就是会话期间(session)有效，浏览器关掉，令牌就失效了。</p>
 <h2 id="三-密码式">三 密码式</h2>
-<p>如果高度新人某个应用，用户可以直接把用户名和密码，直接告诉该应用。该应用就会使用你的密码，申请令牌，这种方式称为 密码式。</p>
+<p>如果高度信任某个应用，用户可以直接把用户名和密码，直接告诉该应用。该应用就会使用你的密码，申请令牌，这种方式称为 密码式。</p>
 <h4 id="第一步-2">第一步：</h4>
 <p>A 网站要求用户提供B网站的用户名和密码，拿到以后，A就直接向B请求令牌。</p>
 <div class="highlight"><div class="chroma">
