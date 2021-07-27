@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>springboot on Kyle Blog</title>
+    <link>https://dr-kyle.github.io/categories/springboot/</link>
+    <description>Recent content in springboot on Kyle Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 27 Jul 2021 19:59:52 +0800</lastBuildDate>
+    
+	<atom:link href="https://dr-kyle.github.io/categories/springboot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Springboot源码</title>
+      <link>https://dr-kyle.github.io/post/springboot/springboot%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Tue, 27 Jul 2021 19:59:52 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/springboot/springboot%E6%BA%90%E7%A0%81/</guid>
+      <description>&lt;p&gt;Springboot 源码阅读&lt;/p&gt;
+&lt;p&gt;springboot 最大的特点 就是自动配置，我们引入 对应的 jar 包，springboot 帮助我们进行自动配置，可以省去很多繁琐的配置步骤。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>策略模式</title>
+      <link>https://dr-kyle.github.io/post/springboot/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 22 Dec 2020 09:47:03 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/springboot/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;Springboot 策略模式的实现&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

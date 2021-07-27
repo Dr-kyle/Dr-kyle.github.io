@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Springboot源码 - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="springboot 源码学习" /><meta name="keywords" content="springboot, springboot 源码" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/springboot/springboot%E6%BA%90%E7%A0%81/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Springboot源码" />
+<meta property="og:description" content="springboot 源码学习" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/springboot/springboot%E6%BA%90%E7%A0%81/" />
+<meta property="article:published_time" content="2021-07-27T19:59:52+08:00" />
+<meta property="article:modified_time" content="2021-07-27T19:59:52+08:00" />
+<meta itemprop="name" content="Springboot源码">
+<meta itemprop="description" content="springboot 源码学习">
+<meta itemprop="datePublished" content="2021-07-27T19:59:52&#43;08:00" />
+<meta itemprop="dateModified" content="2021-07-27T19:59:52&#43;08:00" />
+<meta itemprop="wordCount" content="493">
+
+
+
+<meta itemprop="keywords" content="springboot," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Springboot源码"/>
+<meta name="twitter:description" content="springboot 源码学习"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Springboot源码</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-07-27 19:59 </span>
+        <div class="post-category">
+            <a href="/categories/springboot/"> springboot </a>
+            </div>
+          <span class="more-meta"> 约 493 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>Springboot 源码阅读</p>
+<p>springboot 最大的特点 就是自动配置，我们引入 对应的 jar 包，springboot 帮助我们进行自动配置，可以省去很多繁琐的配置步骤。</p>
+<blockquote>
+<p>启动类</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * @author kyle
+</span><span class="cm"> */</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringbootRestDemoApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">SpringbootRestDemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>@SpringBootApplication</p>
+</blockquote>
+<p>该注解由 <code>SpringBootConfiguration</code>, <code>EnableAutoConfiguration</code>,<code>ComponentScan</code> 三个注解组成</p>
+<p>@SpringBootConfiguration</p>
+<p>标明这是 springboot application 配置类, 以下几种方法排除自动配置类。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// 排除自动配置的类
+1. @SpringBootConfiguration (exclude = {DataSourceAutoConfiguration.class})
+2. @SpringBootApplication(excludeName = {&#34;org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration&#34;})
+3. @EnableAutoConfiguration
+(exclude = {DataSourceAutoConfiguration.class})
+4. @EnableAutoConfiguration
+(excludeName = {&#34;org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration&#34;})
+5. 配置文件
+spring:     
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+</code></pre></td></tr></table>
+</div>
+</div><p>@ComponentScan</p>
+<p>扫描该路径下的 类，注入的容器中，默认扫描 SpringbootRestDemoApplication 该包路径下的所有类</p>
+<p>@EnableAutoConfiguration</p>
+<p>启动自动配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">@AutoConfigurationPackage
+@Import(AutoConfigurationImportSelector.class)
+public @interface EnableAutoConfiguration
+</code></pre></td></tr></table>
+</div>
+</div><p>@AutoConfigurationPackage</p>
+<p>表明包含该注解的类包应该注册</p>
+<p>@Import(AutoConfigurationImportSelector.class)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">META</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">spring</span><span class="o">-</span><span class="n">autoconfigure</span><span class="o">-</span><span class="n">metadata</span><span class="o">.</span><span class="na">properties</span>
+<span class="n">AutoConfigurationImportSelector</span><span class="o">.</span><span class="na">class</span>
+
+	<span class="kd">protected</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getCandidateConfigurations</span><span class="o">(</span><span class="n">AnnotationMetadata</span> <span class="n">metadata</span><span class="o">,</span> <span class="n">AnnotationAttributes</span> <span class="n">attributes</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">configurations</span> <span class="o">=</span> <span class="n">SpringFactoriesLoader</span><span class="o">.</span><span class="na">loadFactoryNames</span><span class="o">(</span><span class="n">getSpringFactoriesLoaderFactoryClass</span><span class="o">(),</span>
+				<span class="n">getBeanClassLoader</span><span class="o">());</span>
+		<span class="n">Assert</span><span class="o">.</span><span class="na">notEmpty</span><span class="o">(</span><span class="n">configurations</span><span class="o">,</span> <span class="s">&#34;No auto configuration classes found in META-INF/spring.factories. If you &#34;</span>
+				<span class="o">+</span> <span class="s">&#34;are using a custom packaging, make sure that file is correct.&#34;</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">configurations</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">getSpringFactoriesLoaderFactoryClass</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">EnableAutoConfiguration</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+	<span class="o">}</span>
+
+<span class="n">SpringFactoriesLoader</span><span class="o">.</span><span class="na">class</span>
+    
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">loadFactoryNames</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">factoryType</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">ClassLoader</span> <span class="n">classLoader</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">String</span> <span class="n">factoryTypeName</span> <span class="o">=</span> <span class="n">factoryType</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+		<span class="k">return</span> <span class="n">loadSpringFactories</span><span class="o">(</span><span class="n">classLoader</span><span class="o">).</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">factoryTypeName</span><span class="o">,</span> <span class="n">Collections</span><span class="o">.</span><span class="na">emptyList</span><span class="o">());</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 
+</span><span class="c1"></span>	<span class="kd">private</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="nf">loadSpringFactories</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">ClassLoader</span> <span class="n">classLoader</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">MultiValueMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">classLoader</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+		<span class="o">}</span>
+
+		<span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// public static final String FACTORIES_RESOURCE_LOCATION = &#34;META-INF/spring.factories&#34;
+</span><span class="c1"></span>			<span class="n">Enumeration</span><span class="o">&lt;</span><span class="n">URL</span><span class="o">&gt;</span> <span class="n">urls</span> <span class="o">=</span> <span class="o">(</span><span class="n">classLoader</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span>
+					<span class="n">classLoader</span><span class="o">.</span><span class="na">getResources</span><span class="o">(</span><span class="n">FACTORIES_RESOURCE_LOCATION</span><span class="o">)</span> <span class="o">:</span>
+					<span class="n">ClassLoader</span><span class="o">.</span><span class="na">getSystemResources</span><span class="o">(</span><span class="n">FACTORIES_RESOURCE_LOCATION</span><span class="o">));</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedMultiValueMap</span><span class="o">&lt;&gt;();</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">urls</span><span class="o">.</span><span class="na">hasMoreElements</span><span class="o">())</span> <span class="o">{</span>
+				<span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
+				<span class="n">UrlResource</span> <span class="n">resource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UrlResource</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+				<span class="n">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">PropertiesLoaderUtils</span><span class="o">.</span><span class="na">loadProperties</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+				<span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">properties</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+					<span class="n">String</span> <span class="n">factoryTypeName</span> <span class="o">=</span> <span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()).</span><span class="na">trim</span><span class="o">();</span>
+					<span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">factoryImplementationName</span> <span class="o">:</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">commaDelimitedListToStringArray</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span> <span class="o">{</span>
+						<span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">factoryTypeName</span><span class="o">,</span> <span class="n">factoryImplementationName</span><span class="o">.</span><span class="na">trim</span><span class="o">());</span>
+					<span class="o">}</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+			<span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+			<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;Unable to load factories from location [&#34;</span> <span class="o">+</span>
+					<span class="n">FACTORIES_RESOURCE_LOCATION</span> <span class="o">+</span> <span class="s">&#34;]&#34;</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+<span class="n">META</span><span class="o">-</span><span class="n">INF</span><span class="o">/</span><span class="n">spring</span><span class="o">.</span><span class="na">factories</span>
+<span class="err">#</span> <span class="n">Auto</span> <span class="n">Configure</span>
+<span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">.</span><span class="na">autoconfigure</span><span class="o">.</span><span class="na">EnableAutoConfiguration</span><span class="o">=</span><span class="err">\</span>
+<span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">.</span><span class="na">autoconfigure</span><span class="o">.</span><span class="na">admin</span><span class="o">.</span><span class="na">SpringApplicationAdminJmxAutoConfiguration</span><span class="o">,</span><span class="err">\</span>
+<span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">.</span><span class="na">autoconfigure</span><span class="o">.</span><span class="na">aop</span><span class="o">.</span><span class="na">AopAutoConfiguration</span><span class="o">,</span><span class="err">\</span>
+<span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">.</span><span class="na">autoconfigure</span><span class="o">.</span><span class="na">amqp</span><span class="o">.</span><span class="na">RabbitAutoConfiguration</span><span class="o">,</span><span class="err">\</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/springboot/">springboot</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/java/%E5%8F%8D%E5%B0%84/">
+            <span class="next-text nav-default">反射</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
