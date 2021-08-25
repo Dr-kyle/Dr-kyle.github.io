@@ -48,7 +48,7 @@
 <meta itemprop="description" content="elasticsearch app search">
 <meta itemprop="datePublished" content="2021-08-24T16:23:34&#43;08:00" />
 <meta itemprop="dateModified" content="2021-08-24T16:23:34&#43;08:00" />
-<meta itemprop="wordCount" content="1537">
+<meta itemprop="wordCount" content="1533">
 
 
 
@@ -128,7 +128,7 @@
         <div class="post-category">
             <a href="/categories/elasticsearch/"> elasticsearch </a>
             </div>
-          <span class="more-meta"> 约 1537 字 </span>
+          <span class="more-meta"> 约 1533 字 </span>
           <span class="more-meta"> 预计阅读 4 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -194,14 +194,14 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">docker run <span class="se">\
-</span><span class="se"></span>  -p 3002:3002 <span class="se">\
-</span><span class="se"></span>  -e elasticsearch.host<span class="o">=</span><span class="s1">&#39;http://host.docker.internal:9200&#39;</span> <span class="se">\
-</span><span class="se"></span>  -e elasticsearch.username<span class="o">=</span>elastic <span class="se">\
-</span><span class="se"></span>  -e elasticsearch.password<span class="o">=</span>changeme <span class="se">\
-</span><span class="se"></span>  -e <span class="nv">allow_es_settings_modification</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
-</span><span class="se"></span>  -e secret_management.encryption_keys<span class="o">=</span><span class="s1">&#39;[4a2cd3f81d39bf28738c10db0ca782095ffac07279561809eecc722e0c20eb09]&#39;</span> <span class="se">\
-</span><span class="se"></span>docker.elastic.co/enterprise-search/enterprise-search:7.12.0
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker run <span class="se">\</span>
+  -p 3002:3002 <span class="se">\</span>
+  -e elasticsearch.host<span class="o">=</span><span class="s1">&#39;http://host.docker.internal:9200&#39;</span> <span class="se">\</span>
+  -e elasticsearch.username<span class="o">=</span>elastic <span class="se">\</span>
+  -e elasticsearch.password<span class="o">=</span>changeme <span class="se">\</span>
+  -e <span class="nv">allow_es_settings_modification</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+  -e secret_management.encryption_keys<span class="o">=</span><span class="s1">&#39;[4a2cd3f81d39bf28738c10db0ca782095ffac07279561809eecc722e0c20eb09]&#39;</span> <span class="se">\</span>
+docker.elastic.co/enterprise-search/enterprise-search:7.12.0
 </code></pre></td></tr></table>
 </div>
 </div><p><code>allow_es_settings_modification</code> 和 <code>secret_management.encryption_keys</code> 必须配置。</p>
@@ -438,10 +438,10 @@ services:
 </span><span class="lnt">45
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">curl -X POST <span class="s1">&#39;http://localhost:3002/api/as/v1/engines/kyle-test-engine/documents&#39;</span> <span class="se">\
-</span><span class="se"></span>  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span><span class="se"></span>  -H <span class="s1">&#39;Authorization: Bearer private-q849axzc6sv37qf83oxbn32r&#39;</span> <span class="se">\
-</span><span class="se"></span>  -d <span class="s1">&#39;[
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl -X POST <span class="s1">&#39;http://localhost:3002/api/as/v1/engines/kyle-test-engine/documents&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  -H <span class="s1">&#39;Authorization: Bearer private-q849axzc6sv37qf83oxbn32r&#39;</span> <span class="se">\</span>
+  -d <span class="s1">&#39;[
 </span><span class="s1">        {
 </span><span class="s1">          &#34;id&#34;: &#34;park_rocky-mountain&#34;,
 </span><span class="s1">          &#34;title&#34;: &#34;Rocky Mountain&#34;,
@@ -493,9 +493,9 @@ services:
 <li>
 <p>Reference UI 快速创建搜索界面</p>
 <p>设置过滤、排序等字段。</p>
-<p>![](/images/app-search/Reference UI-1.png)</p>
+<p><img src="/images/app-search/ReferenceUI-1.png" alt=""></p>
 <p>搜索页面，可以点击 Download ZIP Package 下载代码解压，然后执行 <code>npm install</code>, <code>npm start</code> 就可以有单独搜索的页面。</p>
-<p>![](/images/app-search/Reference UI-2.png)</p>
+<p><img src="/images/app-search/ReferenceUI-2.png" alt=""></p>
 </li>
 <li>
 <p>可以通过 UI Schema 调整字段的类型，默认 text，目前仅支持 text、number、date、geolocation 四种类型</p>
