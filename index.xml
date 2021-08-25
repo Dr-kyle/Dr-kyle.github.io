@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>AppSearch</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/appsearch/</link>
+      <pubDate>Tue, 24 Aug 2021 16:23:34 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/appsearch/</guid>
+      <description>&lt;p&gt;App Search instruction&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Springboot源码</title>
       <link>https://dr-kyle.github.io/post/springboot/springboot%E6%BA%90%E7%A0%81/</link>
       <pubDate>Tue, 27 Jul 2021 19:59:52 +0800</pubDate>

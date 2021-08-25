@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>AppSearch - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="elasticsearch app search" /><meta name="keywords" content="elasticsearch app search" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/elasticsearch/appsearch/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="AppSearch" />
+<meta property="og:description" content="elasticsearch app search" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/elasticsearch/appsearch/" />
+<meta property="article:published_time" content="2021-08-24T16:23:34+08:00" />
+<meta property="article:modified_time" content="2021-08-24T16:23:34+08:00" />
+<meta itemprop="name" content="AppSearch">
+<meta itemprop="description" content="elasticsearch app search">
+<meta itemprop="datePublished" content="2021-08-24T16:23:34&#43;08:00" />
+<meta itemprop="dateModified" content="2021-08-24T16:23:34&#43;08:00" />
+<meta itemprop="wordCount" content="1537">
+
+
+
+<meta itemprop="keywords" content="elasticsearch," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AppSearch"/>
+<meta name="twitter:description" content="elasticsearch app search"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">AppSearch</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-08-24 16:23 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> elasticsearch </a>
+            </div>
+          <span class="more-meta"> 约 1537 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>App Search instruction</p>
+<h1 id="elastic-app-search">Elastic App Search</h1>
+<p>Elastic App Search 是  Elastic Enterprise Search 的一部分，和 Elasticsearch 一起使用，是免费使用的。</p>
+<p>App Search 可以轻松实现高级搜索，通过完善的 API 集合以及直观的仪表板，Elastic App Search 为您的公司网站、电子商务网站或应用带来了 Elasticsearch 的强大功能。获得无缝的可扩展性、可调的相关性控制、详尽的文档、经过良好维护的客户端和强大的分析能力，为您的客户打造领先的搜索体验。</p>
+<p><img src="/images/app-search/jiagou1.png.png" alt="">
+<img src="/images/app-search/jiagou2.png.png" alt=""></p>
+<h2 id="亮点">亮点</h2>
+<ul>
+<li>
+<p>轻松完成索引</p>
+<p>不限平台，不限数据，不限位置，通过不区分模式的数据采集方式以及直观的仪表板，您马上就能完成准备工作并开始查询。只需使用网络爬虫或经过良好维护的 API 客户端之一对您的数据加以索引，然后便可开始查询啦。</p>
+</li>
+<li>
+<p>功能强大的搜索</p>
+<p>相关性高，容错性优异，Elastic App Search 由 Elasticsearch 提供支持，其相关性模型已针对实际搜索情况进行优化。“允许拼写错误”、词干提取、双连词等功能均可直接使用。</p>
+</li>
+<li>
+<p>搜索分析</p>
+<p>实时数据，可付诸实践的见解，Elastic App Search 的分析结果能够让您洞悉用户的全部行为，并为您提供改进建议以及达到目标的方式。</p>
+</li>
+<li>
+<p>相关性调整</p>
+<p>定义您自己的搜索方式，使用直观界面调校搜索的相关性。创建同义词组，针对特定查询对结果进行重排序，以及分配权重和系数，这些都有助于对整体精准度进行微调。</p>
+</li>
+<li>
+<p>爬取过程便捷</p>
+<p>高效索引所有公开的网站内容。只需点击鼠标——无需代码——用户便可自定义网络爬虫规则，从而指定入口点，并且/或者将特定页面、内容或词汇排除在外。</p>
+</li>
+</ul>
+<h2 id="部署">部署</h2>
+<p>因为 App Search 是 Enterprise Search 的一部分，所有只需要部署 Enterprise Search 即可使用 App Search。</p>
+<p>以 Docker 部署举例</p>
+<ol>
+<li>
+<p>拉取镜像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker pull docker.elastic.co/enterprise-search/enterprise-search:7.12.0
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>用 Docker Cli 启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker run <span class="se">\
+</span><span class="se"></span>  -p 3002:3002 <span class="se">\
+</span><span class="se"></span>  -e elasticsearch.host<span class="o">=</span><span class="s1">&#39;http://host.docker.internal:9200&#39;</span> <span class="se">\
+</span><span class="se"></span>  -e elasticsearch.username<span class="o">=</span>elastic <span class="se">\
+</span><span class="se"></span>  -e elasticsearch.password<span class="o">=</span>changeme <span class="se">\
+</span><span class="se"></span>  -e <span class="nv">allow_es_settings_modification</span><span class="o">=</span><span class="nb">true</span> <span class="se">\
+</span><span class="se"></span>  -e secret_management.encryption_keys<span class="o">=</span><span class="s1">&#39;[4a2cd3f81d39bf28738c10db0ca782095ffac07279561809eecc722e0c20eb09]&#39;</span> <span class="se">\
+</span><span class="se"></span>docker.elastic.co/enterprise-search/enterprise-search:7.12.0
+</code></pre></td></tr></table>
+</div>
+</div><p><code>allow_es_settings_modification</code> 和 <code>secret_management.encryption_keys</code> 必须配置。</p>
+</li>
+<li>
+<p>用 Docker Compose 启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">docker compose up --remove-orphans
+</code></pre></td></tr></table>
+</div>
+</div><p><code>docker-compose.yml</code> 文件内容如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">version: <span class="s2">&#34;7.12.0&#34;</span>
+   
+networks:
+  elastic:
+    driver: bridge
+   
+volumes:
+  elasticsearch:
+    driver: <span class="nb">local</span>
+   
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:<span class="o">{</span>version<span class="o">}</span>
+    restart: unless-stopped
+    environment:
+      - <span class="s2">&#34;discovery.type=single-node&#34;</span>
+      - <span class="s2">&#34;ES_JAVA_OPTS=-Xms512m -Xmx512m&#34;</span>
+      - <span class="s2">&#34;xpack.security.enabled=true&#34;</span>
+      - <span class="s2">&#34;xpack.security.authc.api_key.enabled=true&#34;</span>
+      - <span class="s2">&#34;ELASTIC_PASSWORD=changeme&#34;</span>
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 127.0.0.1:9200:9200
+    networks:
+      - elastic
+   
+  ent-search:
+    image: docker.elastic.co/enterprise-search/enterprise-search:<span class="o">{</span>version<span class="o">}</span>
+    restart: unless-stopped
+    depends_on:
+      - <span class="s2">&#34;elasticsearch&#34;</span>
+    environment:
+      - <span class="s2">&#34;JAVA_OPTS=-Xms512m -Xmx512m&#34;</span>
+      - <span class="s2">&#34;ENT_SEARCH_DEFAULT_PASSWORD=changeme&#34;</span>
+      - <span class="s2">&#34;elasticsearch.username=elastic&#34;</span>
+      - <span class="s2">&#34;elasticsearch.password=changeme&#34;</span>
+      - <span class="s2">&#34;elasticsearch.host=http://elasticsearch:9200&#34;</span>
+      - <span class="s2">&#34;allow_es_settings_modification=true&#34;</span>
+      - <span class="s2">&#34;secret_management.encryption_keys=[4a2cd3f81d39bf28738c10db0ca782095ffac07279561809eecc722e0c20eb09]&#34;</span>
+      - <span class="s2">&#34;elasticsearch.startup_retry.interval=15&#34;</span>
+    ports:
+      - 127.0.0.1:3002:3002
+    networks:
+      - elastic
+   
+  kibana:
+    image: docker.elastic.co/kibana/kibana:<span class="o">{</span>version<span class="o">}</span>
+    restart: unless-stopped
+    depends_on:
+      - <span class="s2">&#34;elasticsearch&#34;</span>
+      - <span class="s2">&#34;ent-search&#34;</span>
+    ports:
+      - 127.0.0.1:5601:5601
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ENTERPRISESEARCH_HOST: http://ent-search:3002
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: changeme
+    networks:
+      - elastic
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>启动成功后，可以通过 kibana -&gt; Enterprise Search -&gt; App Search 访问，或者访问单独的 UI ， <a href="http://localhost:3002/">http://localhost:3002</a>
+<img src="/images/app-search/dashboard.png" alt=""></p>
+</li>
+</ol>
+<h2 id="使用">使用</h2>
+<ol>
+<li>
+<p>创建 Engine</p>
+<p>点击首页 Create an Engine 输入 Engines name 选择语言进行创建，每个 Engine 最终都会在 Elasticsearch 中有对应的一个 index。</p>
+<p><img src="/images/app-search/index.png" alt=""></p>
+</li>
+<li>
+<p>导入数据</p>
+<p><img src="/images/app-search/import-data.png" alt=""></p>
+<p>数据导入方式有以下四种</p>
+<ul>
+<li>
+<p>Paste JSON</p>
+<p>直接粘贴 JSON 内容</p>
+</li>
+<li>
+<p>Upload a JSON file</p>
+<p>上传 json 文件，将 文件内容写入</p>
+</li>
+<li>
+<p>Use the web crawler(BETA)</p>
+<p>使用爬虫器进行爬取</p>
+</li>
+<li>
+<p>Index by API</p>
+<p>使用 Rest API 写入数据</p>
+</li>
+</ul>
+<p>我们根据场景选择不同的数据导入方式，以下以 Rest API 举例，如果不指定id，会自动生成</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">curl -X POST <span class="s1">&#39;http://localhost:3002/api/as/v1/engines/kyle-test-engine/documents&#39;</span> <span class="se">\
+</span><span class="se"></span>  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span><span class="se"></span>  -H <span class="s1">&#39;Authorization: Bearer private-q849axzc6sv37qf83oxbn32r&#39;</span> <span class="se">\
+</span><span class="se"></span>  -d <span class="s1">&#39;[
+</span><span class="s1">        {
+</span><span class="s1">          &#34;id&#34;: &#34;park_rocky-mountain&#34;,
+</span><span class="s1">          &#34;title&#34;: &#34;Rocky Mountain&#34;,
+</span><span class="s1">          &#34;description&#34;: &#34;Bisected north to south by the Continental Divide, this portion of the Rockies has ecosystems varying from over 150 riparian lakes to montane and subalpine forests to treeless alpine tundra. Wildlife including mule deer, bighorn sheep, black bears, and cougars inhabit its igneous mountains and glacial valleys. Longs Peak, a classic Colorado fourteener, and the scenic Bear Lake are popular destinations, as well as the historic Trail Ridge Road, which reaches an elevation of more than 12,000 feet (3,700 m).&#34;,
+</span><span class="s1">          &#34;nps_link&#34;: &#34;https://www.nps.gov/romo/index.htm&#34;,
+</span><span class="s1">          &#34;states&#34;: [
+</span><span class="s1">            &#34;Colorado&#34;
+</span><span class="s1">          ],
+</span><span class="s1">          &#34;visitors&#34;: 4517585,
+</span><span class="s1">          &#34;world_heritage_site&#34;: false,
+</span><span class="s1">          &#34;location&#34;: &#34;40.4,-105.58&#34;,
+</span><span class="s1">          &#34;acres&#34;: 265795.2,
+</span><span class="s1">          &#34;square_km&#34;: 1075.6,
+</span><span class="s1">          &#34;date_established&#34;: &#34;1915-01-26T06:00:00Z&#34;
+</span><span class="s1">        },
+</span><span class="s1">        {
+</span><span class="s1">          &#34;id&#34;: &#34;park_saguaro&#34;,
+</span><span class="s1">          &#34;title&#34;: &#34;Saguaro&#34;,
+</span><span class="s1">          &#34;description&#34;: &#34;Split into the separate Rincon Mountain and Tucson Mountain districts, this park is evidence that the dry Sonoran Desert is still home to a great variety of life spanning six biotic communities. Beyond the namesake giant saguaro cacti, there are barrel cacti, chollas, and prickly pears, as well as lesser long-nosed bats, spotted owls, and javelinas.&#34;,
+</span><span class="s1">          &#34;nps_link&#34;: &#34;https://www.nps.gov/sagu/index.htm&#34;,
+</span><span class="s1">          &#34;states&#34;: [
+</span><span class="s1">            &#34;Arizona&#34;
+</span><span class="s1">          ],
+</span><span class="s1">          &#34;visitors&#34;: 820426,
+</span><span class="s1">          &#34;world_heritage_site&#34;: false,
+</span><span class="s1">          &#34;location&#34;: &#34;32.25,-110.5&#34;,
+</span><span class="s1">          &#34;acres&#34;: 91715.72,
+</span><span class="s1">          &#34;square_km&#34;: 371.2,
+</span><span class="s1">          &#34;date_established&#34;: &#34;1994-10-14T05:00:00Z&#34;
+</span><span class="s1">        }
+</span><span class="s1">      ]&#39;</span>
+<span class="c1"># [</span>
+<span class="c1">#   {</span>
+<span class="c1">#     &#34;id&#34;: &#34;park_rocky-mountain&#34;,</span>
+<span class="c1">#     &#34;errors&#34;: []</span>
+<span class="c1">#   },</span>
+<span class="c1">#   {</span>
+<span class="c1">#     &#34;id&#34;: &#34;park_saguaro&#34;,</span>
+<span class="c1">#     &#34;errors&#34;: []</span>
+<span class="c1">#   }</span>
+<span class="c1"># ]</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>点击 Documents 开始搜索，可以通过 Customize 设置过滤字段和排序字段。</p>
+<p><img src="/images/app-search/cusomteize-filters-sort.png" alt=""></p>
+</li>
+<li>
+<p>Reference UI 快速创建搜索界面</p>
+<p>设置过滤、排序等字段。</p>
+<p>![](/images/app-search/Reference UI-1.png)</p>
+<p>搜索页面，可以点击 Download ZIP Package 下载代码解压，然后执行 <code>npm install</code>, <code>npm start</code> 就可以有单独搜索的页面。</p>
+<p>![](/images/app-search/Reference UI-2.png)</p>
+</li>
+<li>
+<p>可以通过 UI Schema 调整字段的类型，默认 text，目前仅支持 text、number、date、geolocation 四种类型</p>
+<p><img src="/images/app-search/change-schema.png" alt=""></p>
+</li>
+<li>
+<p>Synonyms 同义词设置</p>
+<p><img src="/images/app-search/Synonyms.png" alt=""></p>
+</li>
+<li>
+<p>Curations 结果设置</p>
+<p>Curations 允许手动提升或隐藏特定查询的文档，可用于增加每次点击的搜索比率或执行推广特定内容的活动。</p>
+<p><img src="/images/app-search/Curations.png" alt=""></p>
+</li>
+<li>
+<p>相关性得分设置</p>
+<p><img src="/images/app-search/Relevance.png" alt=""></p>
+</li>
+<li>
+<p>结果设置</p>
+<p><img src="/images/app-search/result.png" alt=""></p>
+</li>
+<li>
+<p>通过 Overview 和 Analytics 可以查看到所有 API 的使用情况，方便定义问题及优化。</p>
+<p><img src="/images/app-search/Overview.png" alt=""></p>
+<p><img src="/images/app-search/analytics.png" alt=""></p>
+</li>
+</ol>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">elasticsearch</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/springboot/springboot%E6%BA%90%E7%A0%81/">
+            <span class="next-text nav-default">Springboot源码</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
