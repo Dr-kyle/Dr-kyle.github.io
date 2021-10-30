@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Elasticsearch配置文件</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/elasticsearch%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Sat, 30 Oct 2021 21:14:04 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/elasticsearch%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</guid>
+      <description>&lt;p&gt;elasticsearch 配置文件&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Document API</title>
       <link>https://dr-kyle.github.io/post/elasticsearch/document-api/</link>
       <pubDate>Thu, 21 Oct 2021 08:50:26 +0800</pubDate>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Elasticsearch配置文件 - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="elasticsearch config" /><meta name="keywords" content="elasticsearch" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/elasticsearch/elasticsearch%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Elasticsearch配置文件" />
+<meta property="og:description" content="elasticsearch config" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/elasticsearch/elasticsearch%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" />
+<meta property="article:published_time" content="2021-10-30T21:14:04+08:00" />
+<meta property="article:modified_time" content="2021-10-30T21:14:04+08:00" />
+<meta itemprop="name" content="Elasticsearch配置文件">
+<meta itemprop="description" content="elasticsearch config">
+<meta itemprop="datePublished" content="2021-10-30T21:14:04&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-30T21:14:04&#43;08:00" />
+<meta itemprop="wordCount" content="1035">
+
+
+
+<meta itemprop="keywords" content="elasticsearch," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Elasticsearch配置文件"/>
+<meta name="twitter:description" content="elasticsearch config"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Elasticsearch配置文件</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-30 21:14 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> elasticsearch </a>
+            </div>
+          <span class="more-meta"> 约 1035 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>elasticsearch 配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># 可以动态调整的配置，推荐使用 _cluster/settings 进行设置</span><span class="w">
+</span><span class="w"></span><span class="c"># PATH</span><span class="w">
+</span><span class="w"></span><span class="k">path</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="c"># 数据目录，不要在目录上运行病毒扫描程序</span><span class="w">
+</span><span class="w">  </span><span class="k">data</span><span class="p">:</span><span class="w"> </span>/var/data/elasticsearch<span class="w">
+</span><span class="w">  </span><span class="c"># 日志目录</span><span class="w">
+</span><span class="w">  </span><span class="k">logs</span><span class="p">:</span><span class="w"> </span>/var/log/elasticsearch<span class="w">
+</span><span class="w"></span><span class="c"># Cluster name</span><span class="w">
+</span><span class="w"></span><span class="k">cluster.name</span><span class="p">:</span><span class="w"> </span>logging-prod<span class="w">
+</span><span class="w"></span><span class="c"># 环境变量</span><span class="w">
+</span><span class="w"></span><span class="c"># node.name: ${HOSTNAME}</span><span class="w">
+</span><span class="w"></span><span class="c"># defaults to the hostname of the machine </span><span class="w">
+</span><span class="w"></span><span class="k">node.name</span><span class="p">:</span><span class="w"> </span>prod-data<span class="m">-2</span><span class="w">
+</span><span class="w"></span><span class="c"># default 127.0.0.1 and [::1], 生产模式，启动时警告变成error</span><span class="w">
+</span><span class="w"></span><span class="k">network.host</span><span class="p">:</span><span class="w"> </span><span class="m">192.168.1.10</span><span class="w">
+</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Discovery, 没有配置将扫描本地端口9300 - 9305</span><span class="w">
+</span><span class="w"></span><span class="k">discovery.seed_hosts</span><span class="p">:</span><span class="w">
+</span><span class="w">   </span>- <span class="m">192.168.1.10</span><span class="p">:</span><span class="m">9300</span><span class="w">
+</span><span class="w">   </span>- <span class="m">192.168.1.11</span><span class="w"> 
+</span><span class="w">   </span>- seeds.mydomain.com<span class="w"> 
+</span><span class="w">   </span>- <span class="p">[</span><span class="m">0</span><span class="p">:</span><span class="m">0</span><span class="p">:</span><span class="m">0</span><span class="p">:</span><span class="m">0</span><span class="p">:</span><span class="m">0</span><span class="p">:</span>ffff<span class="p">:</span>c0a8<span class="p">:</span>10c<span class="p">]:</span><span class="m">9301</span><span class="w">
+</span><span class="w"></span><span class="c"># 在第一次成功形成集群时，删除掉该配置，重新启动集群或向现有集群添加新节点时，请不要使用此设置</span><span class="w">
+</span><span class="w"></span><span class="k">cluster.initial_master_nodes</span><span class="p">:</span><span class="w"> 
+</span><span class="w">   </span>- master-node-a<span class="w">
+</span><span class="w">   </span>- master-node-b<span class="w">
+</span><span class="w">   </span>- master-node-c<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Path circuit breaker avoid OutOfMemoryError</span><span class="w">
+</span><span class="w"></span><span class="c"># static, default: true, 确定父父断路器是否考虑实际内存使用情况，还是只考虑子断路器</span><span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.total.use_real_memory</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w"></span><span class="c"># Dynamic, if indices.breaker.total.use_real_memory: true default: JVM heap 95%, else 70%</span><span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.total.limit</span><span class="p">:</span><span class="w"> </span><span class="m">95</span>%<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Field data circuit breaker, 预估将字段加载到 field data cache 所需的堆内存大小，如果超过限制停止操作，并返回错误</span><span class="w">
+</span><span class="w"></span><span class="c"># Dynamic, default: JVM heap 40%</span><span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.fielddata.limit</span><span class="p">:</span><span class="w"> </span><span class="m">40</span>%<span class="w">
+</span><span class="w"></span><span class="c"># Dynamic, 预估大小和该因子相乘确定最终大小</span><span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.fielddata.overhead</span><span class="p">:</span><span class="w"> </span><span class="m">1.03</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Request, for example, memory used for calculating aggregations during a request</span><span class="w">
+</span><span class="w"></span><span class="c"># Dynamic, default: JVM heap 60%</span><span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.request.limit</span><span class="p">:</span><span class="w"> </span><span class="m">60</span>%<span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.request.overhead</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># In flight requests circuit breaker</span><span class="w">
+</span><span class="w"></span><span class="c"># Dynamic, defalult: JVM heap 100% ,意味会受到 path circuit breaker 的限制</span><span class="w">
+</span><span class="w"></span><span class="k">network.breaker.inflight_requests.limit</span><span class="p">:</span><span class="w"> </span><span class="m">100</span>%<span class="w">
+</span><span class="w"></span><span class="k">network.breaker.inflight_requests.overhead</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Accounting requests circuit breaker</span><span class="w">
+</span><span class="w"></span><span class="c"># Dynamic</span><span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.accounting.limit</span><span class="p">:</span><span class="w"> </span><span class="m">100</span>%<span class="w">
+</span><span class="w"></span><span class="k">indices.breaker.accounting.overhead</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Script compilation circuit breaker</span><span class="w">
+</span><span class="w"></span><span class="c"># Dynamic, 脚本编译断路器限制了一段时间内内联脚本编译的次数, 默认 75/5m, 每 5 分钟 75次。</span><span class="w">
+</span><span class="w"></span><span class="k">script.context.$CONTEXT.max_compilations_rate</span><span class="p">:</span><span class="w"> </span><span class="m">75</span>/5m<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># Regex circuit breaker， Static， 写得不好的正则表达式会降低集群的稳定性和性能</span><span class="w">
+</span><span class="w"></span><span class="c"># limited 启动正则表达式，使用 script.painless.regex.limit-factor 集群设置限制复杂性。 </span><span class="w">
+</span><span class="w"></span><span class="c"># true 启用没有复杂性限制的正则表达式。禁用正则表达式断路器。</span><span class="w">
+</span><span class="w"></span><span class="c"># false 禁用正则表达式。任何包含正则表达式的 Painless 脚本都会返回错误。</span><span class="w">
+</span><span class="w"></span><span class="k">script.painless.regex.enabled</span><span class="p">:</span><span class="w"> </span>limited<span class="w">
+</span><span class="w"></span><span class="c"># 限制 Painless 脚本中的正则表达式可以考虑的字符数。 Elasticsearch 通过将设置值乘以脚本输入的字符长度来计算此限制, 例如 input `foobarbaz` 长度为9， 9 * 6 = 54， 如果表达式超过此限制，断路器返回错误。</span><span class="w">
+</span><span class="w"></span><span class="k">script.painless.regex.limit-factor</span><span class="p">:</span><span class="w"> </span><span class="m">6</span><span class="w">
+</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html</a></p>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">elasticsearch</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/elasticsearch/document-api/">
+            <span class="next-text nav-default">Document API</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
