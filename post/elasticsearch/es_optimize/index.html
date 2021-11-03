@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Es Settings - Kyle Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="elasticsearch" /><meta name="keywords" content="elasticsearch" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0 with theme even" />
+
+
+<link rel="canonical" href="https://dr-kyle.github.io/post/elasticsearch/es_optimize/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.c2a46f00.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Es Settings" />
+<meta property="og:description" content="elasticsearch" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dr-kyle.github.io/post/elasticsearch/es_optimize/" />
+<meta property="article:published_time" content="2021-08-07T22:15:40+08:00" />
+<meta property="article:modified_time" content="2021-08-07T22:15:40+08:00" />
+<meta itemprop="name" content="Es Settings">
+<meta itemprop="description" content="elasticsearch">
+<meta itemprop="datePublished" content="2021-08-07T22:15:40&#43;08:00" />
+<meta itemprop="dateModified" content="2021-08-07T22:15:40&#43;08:00" />
+<meta itemprop="wordCount" content="2228">
+
+
+
+<meta itemprop="keywords" content="elasticsearch," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Es Settings"/>
+<meta name="twitter:description" content="elasticsearch"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Kyle Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于我</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Kyle Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">关于我</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Es Settings</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-08-07 22:15 </span>
+        <div class="post-category">
+            <a href="/categories/elasticsearch/"> elasticsearch </a>
+            </div>
+          <span class="more-meta"> 约 2228 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>Elasticsearch settings</p>
+<h1 id="index-settings">Index Settings</h1>
+<p>设置 _routing 参数为 true，CURD 必须包含 _routing 参数，否则报错<code>routing_missing_exception</code></p>
+<p>为了 避免数据不均衡，可以路由到分片子集，而不是单个分片</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">PUT my-index-000002
+<span class="o">{</span>
+  <span class="s2">&#34;mappings&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;_routing&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;required&#34;</span>: <span class="nb">true</span> 
+    <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;settings&#34;</span>: <span class="o">{</span>
+    // <span class="nv">shard_num</span> <span class="o">=</span> hash<span class="o">(</span>_routing<span class="o">)</span> % num_primary_shards
+    // <span class="nv">shard_num</span> <span class="o">=</span> <span class="o">(</span>hash<span class="o">(</span>_routing<span class="o">)</span> + hash<span class="o">(</span>_id<span class="o">)</span> % routing_partition_size<span class="o">)</span> % num_primary_shards
+    // 此值小于 index.number_of_shards 的值，缺点：不能使用 join 字段类型，所有的请求 _routing 参数为必须
+    <span class="s2">&#34;index.routing_partition_size&#34;</span>: 1,
+    // 默认 10000
+    <span class="s2">&#34;index.max_result_window&#34;</span>: 5000
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="集群设置">集群设置</h1>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#http-settings">http.max_content_length</a></p>
+<p>默认 100MB，可以适当调大，但是 lucene 限制为 2GB。</p>
+<p><code>cluster.publish.timeout</code></p>
+<p>默认为<code>30s</code>，从发布开始的时间开始计算。如果在提交新集群状态之前达到这个时间，那么集群状态更改将被拒绝，并且主节点认为自己已经失败。它停止并开始尝试选举一个新的主人。</p>
+<p><code>cluster.follower_lag.timeout</code></p>
+<p>默认为<code>90s</code>. 如果节点在这段时间内仍未成功应用集群状态更新，则认为它已失败并从集群中删除</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-settings.html"><code>monitor.fs.health</code></a></p>
+<p>每个节点通过将一个小文件写入磁盘然后再次删除它来定期验证其数据路径是否健康。如果节点发现其数据路径不正常，则将其从集群中删除，直到数据路径恢复。您可以使用<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-settings.html"><code>monitor.fs.health</code>设置</a>来控制此行为 。</p>
+<h1 id="集群优化点">集群优化点</h1>
+<ol>
+<li>
+<p>不要返回太大的数据集</p>
+<p>Elasticsearch 被设计为一个搜索引擎，这使得它非常擅长获取与查询匹配的顶级文档，例如检索与特定查询匹配的所有文档，则效果不佳。</p>
+</li>
+<li>
+<p>避免大的文档</p>
+<p>大文档对网络、内存使用和磁盘的压力更大，即使不获取 _source 字段，但是大多数情况需要获取文档 _id, 由于文件系统缓存的工作方式，获取该字段的成本更大，索引此文档可能使用的内存量是文档原始大小的乘数，短语查询和高亮查询也会更耗资源。</p>
+</li>
+<li>
+<p>使用 bulk 批量提交</p>
+<p>过大的批量请求可能会使集群承受内存压力，因此建议避免每个请求超过几十兆字节</p>
+</li>
+<li>
+<p>使用多线程将数据发送到 elasticsearch</p>
+<p>除了更好地利用集群的资源之外，有助于降低每个 fsync 的成本。</p>
+</li>
+<li>
+<p>取消设置或增加 refresh interval</p>
+<p>正在进行索引时经常调用它会影响索引速度，默认情况下，Elasticsearch 每秒都会定期刷新索引，但仅限于在过去 30 秒内收到一个或多个搜索请求的索引，如果数据不经常被搜索，不建议设置此值。</p>
+</li>
+<li>
+<p>留内存给文件系统</p>
+<p>文件系统缓存将用于缓冲 I/O 操作。您应该确保至少将运行 Elasticsearch 的机器的一半内存分配给文件系统缓存。</p>
+</li>
+<li>
+<p>使用自动生成的ID</p>
+<p>显示指定 ID ，Elasticsearch  需要检查 id 的文档是否已经存在，自动生成的 ID 可以跳过该步骤。</p>
+</li>
+<li>
+<p>使用 SSD</p>
+</li>
+<li>
+<p>索引缓存区大小</p>
+<p>如果节点仅执行大量索引，请确保 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indexing-buffer.html"><code>indices.memory.index_buffer_size</code></a>足够大，以便为每个分片提供最多 512 MB 的索引缓冲区进行大量索引（除此之外，索引性能通常不会提高），默认堆内存的 10%</p>
+</li>
+<li>
+<p>使用跨集群复制(该功能收费)</p>
+<p>在单个集群中，索引和搜索可能会争夺资源。通过设置两个集群，配置<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/xpack-ccr.html">跨集群复制</a>以将数据从一个<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/xpack-ccr.html">集群复制</a>到另一个集群，并将所有搜索路由到具有跟随者索引的集群</p>
+</li>
+<li>
+<p>为文档创建映射</p>
+<p>joins 应该避免使用，<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html"><code>nested</code></a>可以使查询慢几倍，<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html">父子</a>关系可以使查询慢数百倍</p>
+</li>
+<li>
+<p>尽可能搜索少的字段</p>
+<p>如果要经常搜索 a,b,c 三个字段，可以考虑使用 copy_to</p>
+</li>
+<li>
+<p>预处理数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT index/_doc/1
+{
+  &#34;designation&#34;: &#34;spoon&#34;,
+  &#34;price&#34;: 13
+}
+    
+POST index/_search
+{
+  &#34;aggs&#34;: {
+    &#34;price_ranges&#34;: {
+      &#34;range&#34;: {
+        &#34;field&#34;: &#34;price&#34;,
+        &#34;ranges&#34;: [
+          { &#34;to&#34;: 10 },
+          { &#34;from&#34;: 10, &#34;to&#34;: 100 },
+          { &#34;from&#34;: 100 }
+        ]
+      }
+    }
+  }
+}
+       
+</code></pre></td></tr></table>
+</div>
+</div><p>使用以下方式会更好</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT index/_doc/1
+    {
+      &#34;designation&#34;: &#34;spoon&#34;,
+      &#34;price&#34;: 13,
+      &#34;price_range&#34;: &#34;10-100&#34;
+    }
+    POST index/_search
+    {
+      &#34;aggs&#34;: {
+        &#34;price_ranges&#34;: {
+          &#34;terms&#34;: {
+            &#34;field&#34;: &#34;price_range&#34;
+          }
+        }
+      }
+    }
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>优先使用 keyword 类型</p>
+<p><code>term</code>对<code>keyword</code>字段的查询搜索通常比<code>term</code>对数字字段的搜索快</p>
+</li>
+<li>
+<p>避免使用 script</p>
+<p>如果可能，请避免使用基于<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html">脚本</a>的排序、聚合中的脚本和<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-script-score-query.html"><code>script_score</code></a>查询</p>
+</li>
+<li>
+<p>搜索四舍五入的日期</p>
+<p>对使用的日期字段的查询<code>now</code>通常不可缓存，因为匹配的范围一直在变化。但是，从用户体验的角度来看，切换到舍入日期通常是可以接受的，并且可以更好地利用查询缓存。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">PUT index/_doc/1
+<span class="o">{</span>
+  <span class="s2">&#34;my_date&#34;</span>: <span class="s2">&#34;2016-05-11T16:30:55.328Z&#34;</span>
+<span class="o">}</span>
+    
+GET index/_search
+<span class="o">{</span>
+  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;constant_score&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;filter&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;range&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;my_date&#34;</span>: <span class="o">{</span>
+            <span class="s2">&#34;gte&#34;</span>: <span class="s2">&#34;now-1h&#34;</span>,
+            <span class="s2">&#34;lte&#34;</span>: <span class="s2">&#34;now&#34;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以使用如下查询代替</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">GET index/_search
+<span class="o">{</span>
+  <span class="s2">&#34;query&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;constant_score&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;filter&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;range&#34;</span>: <span class="o">{</span>
+          <span class="s2">&#34;my_date&#34;</span>: <span class="o">{</span>
+            // 四舍五入到分钟 
+            <span class="s2">&#34;gte&#34;</span>: <span class="s2">&#34;now-1h/m&#34;</span>,
+            <span class="s2">&#34;lte&#34;</span>: <span class="s2">&#34;now/m&#34;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>force merge 只读 index</p>
+</li>
+<li>
+<p>预热全局序数</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/eager-global-ordinals.html">全局序数</a>是一种用于优化聚合性能的数据结构，它们被延迟计算并作为<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-fielddata.html">字段数据缓存的</a>一部分存储在 JVM 堆中。对于大量用于分桶聚合的字段，您可以告诉 Elasticsearch 在收到请求之前构造和缓存全局序数。这应该小心完成，因为它会增加堆使用量，并使<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-refresh.html">刷新</a> 需要更长的时间, 经常需要根据某字段聚合 可以开启该设置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">PUT index
+<span class="o">{</span>
+  <span class="s2">&#34;mappings&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;properties&#34;</span>: <span class="o">{</span>
+      <span class="s2">&#34;foo&#34;</span>: <span class="o">{</span>
+        <span class="s2">&#34;type&#34;</span>: <span class="s2">&#34;keyword&#34;</span>,
+        <span class="s2">&#34;eager_global_ordinals&#34;</span>: <span class="nb">true</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>减少集群shard数量</p>
+<p>每个分片都使用内存。在大多数情况下，一小组大分片比许多小分片使用更少的资源</p>
+</li>
+<li>
+<p>避免使用昂贵的查询</p>
+<p>昂贵的搜索会占用大量内存</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT _settings
+{
+  &#34;index.max_result_window&#34;: 5000
+}
+    
+PUT _cluster/settings
+{
+  &#34;persistent&#34;: {
+    &#34;search.max_buckets&#34;: 20000,
+    &#34;search.allow_expensive_queries&#34;: false
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h1 id="磁盘优化">磁盘优化</h1>
+<ol>
+<li>
+<p>禁用不需要的字段</p>
+<p>默认情况下，文本字段还存储索引中的频率和位置，频率用于计算分数，位置用于运行短语查询。如果您不需要运行短语查询 &ldquo;index_options&rdquo;: &ldquo;freqs&rdquo;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT index
+{
+  &#34;mappings&#34;: {
+    &#34;properties&#34;: {
+      &#34;foo&#34;: {
+        &#34;type&#34;: &#34;integer&#34;,
+        &#34;index&#34;: false
+      },
+      &#34;foo1&#34;: {
+        &#34;type&#34;: &#34;text&#34;,
+        // 如果不关心分数，可以将此值设置为 false
+        &#34;norms&#34;: false,
+        &#34;index_options&#34;: &#34;freqs&#34;
+      }
+    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>不要使用默认的 动态 字符串映射</p>
+<p>默认字符串动态映射 会 生成 keyword 和 text 两个字段</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">PUT index
+{
+  &#34;mappings&#34;: {
+    &#34;dynamic_templates&#34;: [
+      {
+        &#34;strings&#34;: {
+          &#34;match_mapping_type&#34;: &#34;string&#34;,
+          &#34;mapping&#34;: {
+            &#34;type&#34;: &#34;keyword&#34;
+          }
+        }
+      }
+    ]
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>关注分片大小</p>
+</li>
+<li>
+<p>如果不需要 _source 字段，可以禁用，但是 update 和 reindex 将不可用</p>
+</li>
+<li>
+<p>使用 <code>best_compression</code> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-codec">codec</a>.</p>
+</li>
+<li>
+<p>在文档中以相同的顺序存放字段</p>
+<p>由于多个文档被一起压缩成块，<code>_source</code>如果字段总是以相同的顺序出现，则更有可能在这些文档中找到更长的重复字符串。</p>
+</li>
+<li>
+<p>汇总历史数据</p>
+<p>保留较旧的数据对以后的分析很有用，但由于存储成本，通常会避免。您可以使用数据汇总以原始数据存储成本的一小部分来汇总和存储历史数据。</p>
+</li>
+</ol>
+    </div>
+
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-qr-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">elasticsearch</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elasticsearch/appsearch/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">AppSearch</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/springboot/springboot%E6%BA%90%E7%A0%81/">
+            <span class="next-text nav-default">Springboot源码</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/CrazyKyle_Zhao" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/Dr-kyle" class="iconfont icon-github" title="github"></a>
+  <a href="https://dr-kyle.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Kyle Zhao</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

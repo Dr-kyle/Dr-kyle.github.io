@@ -39,6 +39,15 @@
     </item>
     
     <item>
+      <title>Es Settings</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/es_optimize/</link>
+      <pubDate>Sat, 07 Aug 2021 22:15:40 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/es_optimize/</guid>
+      <description>&lt;p&gt;Elasticsearch settings&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Data Streams</title>
       <link>https://dr-kyle.github.io/post/elasticsearch/data-streams/data-streams/</link>
       <pubDate>Wed, 28 Apr 2021 15:38:36 +0800</pubDate>

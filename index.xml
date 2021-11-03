@@ -48,6 +48,15 @@
     </item>
     
     <item>
+      <title>Es Settings</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/es_optimize/</link>
+      <pubDate>Sat, 07 Aug 2021 22:15:40 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/es_optimize/</guid>
+      <description>&lt;p&gt;Elasticsearch settings&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Springboot源码</title>
       <link>https://dr-kyle.github.io/post/springboot/springboot%E6%BA%90%E7%A0%81/</link>
       <pubDate>Tue, 27 Jul 2021 19:59:52 +0800</pubDate>
