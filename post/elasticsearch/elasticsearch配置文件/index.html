@@ -48,7 +48,7 @@
 <meta itemprop="description" content="elasticsearch config">
 <meta itemprop="datePublished" content="2021-10-30T21:14:04&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-30T21:14:04&#43;08:00" />
-<meta itemprop="wordCount" content="1035">
+<meta itemprop="wordCount" content="1191">
 
 
 
@@ -128,7 +128,7 @@
         <div class="post-category">
             <a href="/categories/elasticsearch/"> elasticsearch </a>
             </div>
-          <span class="more-meta"> 约 1035 字 </span>
+          <span class="more-meta"> 约 1191 字 </span>
           <span class="more-meta"> 预计阅读 3 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -136,7 +136,94 @@
 
     
     <div class="post-content">
-      <p>elasticsearch 配置文件</p>
+      <p>elasticsearch 配置</p>
+<h1 id="important-system-configuration">important system configuration</h1>
+<p><code>firewall</code></p>
+<p>根据需要设置防火墙，此示例直接关闭</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 停止
+sudo systemctl stop firewalld.service
+# 禁止开机启动
+sudo systemctl disable firewalld.service
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ulimit</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo ulimit -n 65535
+</code></pre></td></tr></table>
+</div>
+</div><p><code>/etc/security/limits.conf</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">*  -  nofile  65535
+* soft memlock unlimited
+* hard memlock unlimited
+* hard nproc unlimited
+* soft nproc unlimited
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Disable all swap files</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo swapoff -a
+# sudo vim /etc/fstab  注释掉包含 swap 的行
+</code></pre></td></tr></table>
+</div>
+</div><p><code>swappiness</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo sysctl -w vm.swappiness=1
+sudo sysctl -w vm.max_map_count=262144
+sudo vim /etc/sysctl.conf
+vm.max_map_count=262144
+vm.swappiness=1
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo vim /etc/systemd/system.conf
+DefaultLimitNOFILE=65536
+DefaultLimitNPROC=infinity
+DefaultLimitMEMLOCK=infinity
+</code></pre></td></tr></table>
+</div>
+</div><p>重启机器。</p>
+<h1 id="elasticsearchyml">elasticsearch.yml</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -207,9 +294,11 @@
 </span><span class="lnt">66
 </span><span class="lnt">67
 </span><span class="lnt">68
+</span><span class="lnt">69
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># 可以动态调整的配置，推荐使用 _cluster/settings 进行设置</span><span class="w">
+</span><span class="w"></span><span class="k">bootstrap.memory_lock</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="w"></span><span class="c"># PATH</span><span class="w">
 </span><span class="w"></span><span class="k">path</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="c"># 数据目录，不要在目录上运行病毒扫描程序</span><span class="w">
