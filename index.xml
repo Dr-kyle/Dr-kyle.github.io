@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Cluster Api</title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/cluster-api/</link>
+      <pubDate>Fri, 05 Nov 2021 09:05:08 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/cluster-api/</guid>
+      <description>&lt;p&gt;Elasticsearch 常用的 API&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Elasticsearch配置文件</title>
       <link>https://dr-kyle.github.io/post/elasticsearch/elasticsearch%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</link>
       <pubDate>Sat, 30 Oct 2021 21:14:04 +0800</pubDate>
@@ -181,6 +190,15 @@
       
       <guid>https://dr-kyle.github.io/post/win10-ubuntu-docker/</guid>
       <description>&lt;p&gt;Windows10 子系统Ubuntu安装Docker详细步骤&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://dr-kyle.github.io/post/elasticsearch/es-cloud-analysis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/elasticsearch/es-cloud-analysis/</guid>
+      <description>ES-Cloud Analysis Data Size 时间段内 取最大值 Top index size 10, getIndexStatistics 先获取最后一次收集数据的最大时间，然后根据最后一次收集的数据时间， 前缀求和，取前 10 Monitor-Index getIndexStatistics 最大取 200 默认显示前 10</description>
     </item>
     
     <item>

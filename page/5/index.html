@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title> - Kyle Blog</title>
+  <title>Kyle Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Kyle Zhao" /><meta name="description" content="规范 Index 命名规范 ​ _-yyyy_MM_dd, 优点： 便于统计，分析，模板不易冲突 数据写入加入 @timestamp 时间字段,格式： 时间戳 或 2021-08-06T06:46:34.258Z 基于时间序列的索引使用 data stream 管理 副本数默认 1 关闭动" /><meta name="keywords" content="elasticsearch, kafka, docker" />
+<meta name="author" content="Kyle Zhao" /><meta name="description" content="Kyle Zhao&#39;s Bolg" /><meta name="keywords" content="elasticsearch, kafka, docker" />
 
 
 
@@ -26,7 +26,9 @@
 <meta name="generator" content="Hugo 0.69.0 with theme even" />
 
 
-<link rel="canonical" href="https://dr-kyle.github.io/post/elasticsearch/standard/" />
+<link rel="canonical" href="https://dr-kyle.github.io/" />
+  <link href="https://dr-kyle.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Kyle Blog" />
+  <link href="https://dr-kyle.github.io/index.xml" rel="feed" type="application/rss+xml" title="Kyle Blog" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -38,21 +40,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="" />
-<meta property="og:description" content="规范 Index 命名规范 ​ _-yyyy_MM_dd, 优点： 便于统计，分析，模板不易冲突 数据写入加入 @timestamp 时间字段,格式： 时间戳 或 2021-08-06T06:46:34.258Z 基于时间序列的索引使用 data stream 管理 副本数默认 1 关闭动" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://dr-kyle.github.io/post/elasticsearch/standard/" />
-
-<meta itemprop="name" content="">
-<meta itemprop="description" content="规范 Index 命名规范 ​ _-yyyy_MM_dd, 优点： 便于统计，分析，模板不易冲突 数据写入加入 @timestamp 时间字段,格式： 时间戳 或 2021-08-06T06:46:34.258Z 基于时间序列的索引使用 data stream 管理 副本数默认 1 关闭动">
-
-<meta itemprop="wordCount" content="265">
-
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="规范 Index 命名规范 ​ _-yyyy_MM_dd, 优点： 便于统计，分析，模板不易冲突 数据写入加入 @timestamp 时间字段,格式： 时间戳 或 2021-08-06T06:46:34.258Z 基于时间序列的索引使用 data stream 管理 副本数默认 1 关闭动"/>
+<meta property="og:title" content="Kyle Blog" />
+<meta property="og:description" content="Kyle Zhao&#39;s Bolg" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dr-kyle.github.io/" />
+<meta property="og:updated_time" content="2017-08-20T21:38:52+08:00" />
+<meta itemprop="name" content="Kyle Blog">
+<meta itemprop="description" content="Kyle Zhao&#39;s Bolg"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kyle Blog"/>
+<meta name="twitter:description" content="Kyle Zhao&#39;s Bolg"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -116,114 +112,39 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title"></h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 0001-01-01 00:00 </span>
-        
-          <span class="more-meta"> 约 265 字 </span>
-          <span class="more-meta"> 预计阅读 1 分钟 </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">文章目录</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents"></nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h1 id="规范">规范</h1>
-<ol>
-<li>Index 命名规范</li>
-</ol>
-<p>​              <!-- raw HTML omitted -->_<!-- raw HTML omitted -->-yyyy_MM_dd, 优点： 便于统计，分析，模板不易冲突</p>
-<ol start="2">
-<li>
-<p>数据写入加入 @timestamp 时间字段,格式： 时间戳 或 2021-08-06T06:46:34.258Z</p>
-</li>
-<li>
-<p>基于时间序列的索引使用 <a href="https://confluence.newegg.org/display/XABD/Data+Streams">data stream</a> 管理</p>
-</li>
-<li>
-<p>副本数默认 1</p>
-</li>
-<li>
-<p>关闭动态 mapping, 未指定的字段统一设为 keyword，可搜索，但是不可聚合</p>
-</li>
-<li>
-<p>设置解析字段的最大深度为5， eg： &ldquo;a.b.c.d.e.g&rdquo;， 深度为 6 的数据将无法写入, 避免嵌套过深</p>
-</li>
-<li>
-<p>nested 字段中字段的数量限制为  10</p>
-</li>
-<li>
-<p>nested 字段中 json object 数量为 100，避免查询数据过多时拖垮集群</p>
-</li>
-<li>
-<p>index 最大字段数调整为 100</p>
-</li>
-<li>
-<p>单个shard 的大小控制在 10GB – 50 GB 之间</p>
-</li>
-<li>
-<p>不要把ES 当做数据库来使用，例如：更新频繁且量比较大，数据之间又有关联</p>
-</li>
-</ol>
-
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">文章作者</span>
-    <span class="item-content">Kyle Zhao</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">上次更新</span>
-    <span class="item-content">
-        0001-01-01 00:00
-        
-    </span>
-  </p>
-  
-  
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">赞赏支持</label>
-  <div class="qr-code">
-    
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/images/wechat-qr-code.jpg">
-        <span>微信打赏</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/images/alipay-qr-code.jpg">
-        <span>支付宝打赏</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
+          <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/elasticsearch/standard/"></a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 0001-01-01 00:00 </span>
       
-      <nav class="post-nav">
-        <a class="prev" href="/post/elasticsearch/es-cloud-analysis/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default"></span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
-        
-      </nav>
-    </footer>
-  </article>
+        <span class="more-meta"> 约 265 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      规范 Index 命名规范 ​ _-yyyy_MM_dd, 优点： 便于统计，分析，模板不易冲突 数据写入加入 @timestamp 时间字段,格式： 时间戳 或 2021-08-06T06:46:34.258Z 基于时间序列的索引使用 data stream 管理 副本数默认 1 关闭动
+    </div>
+    <div class="read-more">
+      <a href="/post/elasticsearch/standard/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    </section>
+  
+  <nav class="pagination">
+    <a class="prev" href="/page/4/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
+      </a>
+    
+  </nav>
         </div>
         
-
-  
-
-  
 
       </div>
     </main>
