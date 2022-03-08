@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Index</title>
+      <link>https://dr-kyle.github.io/post/bootstrap/</link>
+      <pubDate>Sat, 05 Mar 2022 16:37:39 +0800</pubDate>
+      
+      <guid>https://dr-kyle.github.io/post/bootstrap/</guid>
+      <description>&lt;p&gt;记录 bootstrap 的一些知识&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Cluster Api</title>
       <link>https://dr-kyle.github.io/post/elasticsearch/cluster-api/</link>
       <pubDate>Fri, 05 Nov 2021 09:05:08 +0800</pubDate>
